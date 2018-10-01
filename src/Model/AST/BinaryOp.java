@@ -34,7 +34,27 @@ public class BinaryOp extends Node {
             case MULTIPLY:
                 return "*";
             case DIVIDE:
-                return "*";
+                return "/";
+            case MODULO:
+                return "%";
+            case LESSTHEN:
+                return "<";
+            case GREATERTHEN:
+                return ">";
+            case LESSTHENOREQUAL:
+                return "<=";
+            case GREATERTHENOREQUAL:
+                return ">=";
+            case EQUAL:
+                return "==";
+            case NOTEQUAL:
+                return "!=";
+            case NOT:
+                return "!";
+            case AND
+                return "&";
+            case OR
+                return "|";
         }
     }
 
