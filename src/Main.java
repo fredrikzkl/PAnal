@@ -6,7 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
         Node root = createTestNode();
-        traverse(root);
+        System.out.println(root.toString());
+//        traverse(root);
     }
 
     private static void traverse(Node node) {
@@ -17,7 +18,7 @@ public class Main {
     }
 
     private static FlowNode convertASTToFlow(Node root) {
-        
+
         throw new NotImplementedException();
     }
 

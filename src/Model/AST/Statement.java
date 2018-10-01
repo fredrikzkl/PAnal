@@ -29,7 +29,7 @@ public class Statement extends Node {
             case WRITE:
                 return this.statementType.toString().toLowerCase() + " " + this.getEdges().get(0).toString();
             case DECLARATION:
-                return this.getEdges().get(0).toString() + " " + this.getEdges().get(0).toString();
+                return this.getEdges().get(0).toString() + " " + this.getEdges().get(1).toString();
             default:
                 return "";
         }

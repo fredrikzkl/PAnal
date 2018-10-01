@@ -35,6 +35,8 @@ public class BinaryOp extends Node {
                 return "*";
             case DIVIDE:
                 return "*";
+            default:
+                return "";
         }
     }
 

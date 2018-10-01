@@ -2,6 +2,7 @@ package Model.AST;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Node {
     private List<Node> edges;
@@ -30,5 +31,10 @@ public class Node {
 
     public String getType() {
         return "ROOT";
+    }
+
+    @Override
+    public String toString() {
+        return this.getEdges().stream().map(Node::toString).collect(Collectors.joining("\n"));
     }
 }
