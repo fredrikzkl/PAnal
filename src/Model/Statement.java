@@ -26,6 +26,8 @@ public class Statement extends Node {
         ELSE,
         WHILE,
         READ,
-        WRITE
+        WRITE,
+        DECLARATION,
+        BRANCH
     }
 }
