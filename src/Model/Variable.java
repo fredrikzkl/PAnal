@@ -14,4 +14,6 @@ public class Variable extends Node {
     public void setVariable(String variable) {
         this.variable = variable;
     }
+
+
 }

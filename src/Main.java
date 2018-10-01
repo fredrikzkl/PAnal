@@ -6,6 +6,7 @@ import Model.Variable;
 public class Main {
 
     public static void main(String[] args) {
+
         Node root = new Node();
         Statement read = new Statement(Statement.StatementType.READ);
         Variable x = new Variable("x");
