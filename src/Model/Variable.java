@@ -15,5 +15,8 @@ public class Variable extends Node {
         this.variable = variable;
     }
 
-
+    @Override
+    public String getType() {
+        return this.variable;
+    }
 }
