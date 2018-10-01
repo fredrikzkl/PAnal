@@ -51,11 +51,14 @@ public class BinaryOp extends Node {
                 return "!=";
             case NOT:
                 return "!";
-            case AND
+            case AND:
                 return "&";
-            case OR
+            case OR:
                 return "|";
+            default:
+                return "--SYMBOL NOT FOUND--"
         }
+
     }
 
     public enum BinaryOperator {
