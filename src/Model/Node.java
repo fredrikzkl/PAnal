@@ -27,4 +27,8 @@ public class Node {
         }
         this.edges.add(edge);
     }
+
+    public String getType() {
+        return "ROOT";
+    }
 }

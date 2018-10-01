@@ -15,6 +15,11 @@ public class Statement extends Node {
         this.statementType = statementType;
     }
 
+    @Override
+    public String getType() {
+        return this.statementType.toString();
+    }
+
     public enum StatementType {
         ASSIGN,
         IF,

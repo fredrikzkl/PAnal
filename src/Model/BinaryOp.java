@@ -15,6 +15,11 @@ public class BinaryOp extends Node {
         this.binaryOperator = binaryOperator;
     }
 
+    @Override
+    public String getType() {
+        return this.binaryOperator.toString();
+    }
+
     public enum BinaryOperator {
         PLUS,
         MINUS,

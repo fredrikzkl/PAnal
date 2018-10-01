@@ -14,4 +14,9 @@ public class Variable extends Node {
     public void setVariable(String variable) {
         this.variable = variable;
     }
+
+    @Override
+    public String getType() {
+        return this.variable;
+    }
 }

@@ -17,15 +17,7 @@ public class Main {
     }
 
     private static void traverse(Node node) {
-        if (node instanceof Statement) {
-            System.out.println(((Statement)node).getStatementType().toString());
-        } else if (node instanceof BinaryOp) {
-            System.out.println(((BinaryOp)node).getBinaryOperator().toString());
-        } else if (node instanceof Variable) {
-            System.out.println(((Variable)node).getVariable());
-        } else {
-            System.out.println("ROOT");
-        }
+        System.out.println(node.getType());
         for (Node edge : node.getEdges()) {
             traverse(edge);
         }
