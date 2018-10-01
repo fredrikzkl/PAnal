@@ -56,13 +56,23 @@ public class Statement extends Node {
                 return Collections.singletonList(new FlowNode(this.toString()));
             case WHILE:
                 List<FlowNode> result = new ArrayList<>();
-                result.add(new FlowNode(this.getEdges().get(0).toString()));
-                result.addAll(((Statement)this.getEdges().get(1)).getFlowNodes());
+                FlowNode cond = new FlowNode(this.getEdges().get(0).toString());
+                result.add(cond);
+                List<FlowNode> temp = new ArrayList<>(((Statement)this.getEdges().get(1)).getFlowNodes());
+                result.addAll(temp);
+                cond.getEdges().add(temp.get(0));
+                temp.get(temp.size() - 1).addEdge(cond);
                 return result;
             case BRANCH:
                 List<FlowNode> branches = new ArrayList<>();
+                List<FlowNode> prev = null;
                 for (Node node : this.getEdges()) {
-                    branches.addAll(((Statement)node).getFlowNodes());
+                    List<FlowNode> tempBranches = new ArrayList<>(((Statement)node).getFlowNodes());
+                    if (prev != null) {
+                        prev.get(prev.size() - 1).addEdge(tempBranches.get(0));
+                    }
+                    prev = tempBranches;
+                    branches.addAll(tempBranches);
                 }
                 return branches;
             default:

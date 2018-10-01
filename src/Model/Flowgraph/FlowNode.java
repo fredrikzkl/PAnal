@@ -56,6 +56,6 @@ public class FlowNode {
 
     @Override
     public String toString() {
-        return "[" + this.statement + "] " + id + " " + this.getEdges().stream().map(FlowNode::getStatement).collect(Collectors.joining(", "));
+        return "[" + this.statement + "] " + id + " E: " + this.getEdges().stream().map(n -> String.valueOf(n.getId())).collect(Collectors.joining(", "));
     }
 }

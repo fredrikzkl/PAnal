@@ -47,7 +47,10 @@ public class Node {
         for (Node node : this.getEdges()) {
             List<FlowNode> temp = new ArrayList<>(((Statement) node).getFlowNodes());
             if (prev != null) {
-                prev.get(prev.size() - 1).addEdge(temp.get(0));
+//                if (prev.size() == 1) {
+                    prev.get(0).addEdge(temp.get(0));
+//                }
+
             }
             prev = temp;
             result.addAll(temp);
