@@ -1,4 +1,4 @@
-package Model;
+package Model.AST;
 
 public class Declaration extends Node {
     private DeclarationType declarationType;
@@ -18,6 +18,20 @@ public class Declaration extends Node {
     @Override
     public String getType() {
         return this.declarationType.toString();
+    }
+
+    @Override
+    public String toString() {
+        switch (this.declarationType) {
+            case INT:
+                return "int";
+            case ARRAY:
+                return "int[]";
+            case RECORD:
+                return "{int fst; int snd}";
+            default:
+                return "";
+        }
     }
 
     public enum DeclarationType {

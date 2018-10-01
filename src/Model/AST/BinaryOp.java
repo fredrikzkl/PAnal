@@ -1,4 +1,4 @@
-package Model;
+package Model.AST;
 
 public class BinaryOp extends Node {
     private BinaryOperator binaryOperator;
@@ -18,6 +18,24 @@ public class BinaryOp extends Node {
     @Override
     public String getType() {
         return this.binaryOperator.toString();
+    }
+
+    @Override
+    public String toString() {
+        return this.getEdges().get(0).toString() + this.mapType() + this.getEdges().get(1).toString();
+    }
+
+    private String mapType() {
+        switch (this.binaryOperator) {
+            case PLUS:
+                return "+";
+            case MINUS:
+                return "-";
+            case MULTIPLY:
+                return "*";
+            case DIVIDE:
+                return "*";
+        }
     }
 
     public enum BinaryOperator {

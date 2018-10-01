@@ -1,4 +1,4 @@
-package Model;
+package Model.AST;
 
 public class Variable extends Node {
     private String variable;
@@ -17,6 +17,11 @@ public class Variable extends Node {
 
     @Override
     public String getType() {
+        return this.variable;
+    }
+
+    @Override
+    public String toString() {
         return this.variable;
     }
 }

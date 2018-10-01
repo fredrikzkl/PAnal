@@ -1,9 +1,27 @@
-import Model.*;
+import Model.AST.*;
+import Model.Flowgraph.FlowNode;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Main {
 
     public static void main(String[] args) {
+        Node root = createTestNode();
+        traverse(root);
+    }
 
+    private static void traverse(Node node) {
+        System.out.println(node.getType());
+        for (Node edge : node.getEdges()) {
+            traverse(edge);
+        }
+    }
+
+    private static FlowNode convertASTToFlow(Node root) {
+        
+        throw new NotImplementedException();
+    }
+
+    private static Node createTestNode() {
         Node root = new Node();
 
         Statement read = new Statement(Statement.StatementType.READ);
@@ -64,13 +82,6 @@ public class Main {
         write.addEdge(y6);
         root.addEdge(write);
 
-        traverse(root);
-    }
-
-    private static void traverse(Node node) {
-        System.out.println(node.getType());
-        for (Node edge : node.getEdges()) {
-            traverse(edge);
-        }
+        return root;
     }
 }
