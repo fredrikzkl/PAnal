@@ -1,5 +1,11 @@
 package Model.AST;
 
+import Model.Flowgraph.FlowNode;
+
+import javax.swing.plaf.nimbus.State;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Statement extends Node {
@@ -38,6 +44,29 @@ public class Statement extends Node {
                 return this.getEdges().stream().map(n -> "[" + n.toString() + "]").collect(Collectors.joining("\n"));
             default:
                 return "";
+        }
+    }
+
+    public List<FlowNode> getFlowNodes() {
+        switch (this.statementType) {
+            case ASSIGN:
+            case READ:
+            case WRITE:
+            case DECLARATION:
+                return Collections.singletonList(new FlowNode(this.toString()));
+            case WHILE:
+                List<FlowNode> result = new ArrayList<>();
+                result.add(new FlowNode(this.getEdges().get(0).toString()));
+                result.addAll(((Statement)this.getEdges().get(1)).getFlowNodes());
+                return result;
+            case BRANCH:
+                List<FlowNode> branches = new ArrayList<>();
+                for (Node node : this.getEdges()) {
+                    branches.addAll(((Statement)node).getFlowNodes());
+                }
+                return branches;
+            default:
+                return Collections.emptyList();
         }
     }
 

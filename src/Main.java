@@ -2,12 +2,18 @@ import Model.AST.*;
 import Model.Flowgraph.FlowNode;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
         Node root = createTestNode();
-        System.out.println(root.toString());
+//        System.out.println(root.toString());
 //        traverse(root);
+        List<FlowNode> flowNodeList = root.convertToFlowNodes();
+        for (FlowNode flowNode : flowNodeList) {
+            System.out.println(flowNode.toString());
+        }
     }
 
     private static void traverse(Node node) {

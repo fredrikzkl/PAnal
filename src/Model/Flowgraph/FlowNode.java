@@ -2,11 +2,17 @@ package Model.Flowgraph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FlowNode {
     private int id;
     private String statement;
     private List<FlowNode> edges;
+
+    public FlowNode(String statement) {
+        this.statement = statement;
+        this.edges = new ArrayList<>();
+    }
 
     public FlowNode(int id, String statement) {
         this(id, statement, new ArrayList<>());
@@ -46,5 +52,10 @@ public class FlowNode {
             this.edges = new ArrayList<>();
         }
         this.edges.add(edge);
+    }
+
+    @Override
+    public String toString() {
+        return "[" + this.statement + "] " + id + " " + this.getEdges().stream().map(FlowNode::getStatement).collect(Collectors.joining(", "));
     }
 }
