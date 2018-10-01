@@ -35,6 +35,6 @@ public class Node {
 
     @Override
     public String toString() {
-        return this.getEdges().stream().map(Node::toString).collect(Collectors.joining("\n"));
+        return this.getEdges().stream().map(n -> "[" + n.toString() + "]").collect(Collectors.joining("\n"));
     }
 }
