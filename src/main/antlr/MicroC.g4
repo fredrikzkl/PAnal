@@ -1,0 +1,142 @@
+grammar MicroC;
+
+program : block;
+
+block : CURLYOPEN ( varDeclaration )* ( statement )* CURLYCLOSE;
+
+
+statement
+    : block
+    | statementAssign
+    | statementAssignRecord
+    | statementIf
+    | statementWhile
+    | statementRead
+    | statementWrite
+    ;
+
+statementAssign         : lhs=identifier COLON EQUAL rhs=expression SEMICOLON ;
+statementAssignRecord   : lhs=identifier COLON EQUAL ROUNDOPEN fst=expression COMMA snd=expression ROUNDCLOSE SEMICOLON ;
+statementIf             : IF ROUNDOPEN condition=expression ROUNDCLOSE ifBlock=block (ELSE elseBlock=block )? ;
+statementWhile          : WHILE ROUNDOPEN condition=expression ROUNDCLOSE whileBlock=statement ;
+statementRead           : READ var=identifier;
+statementWrite          : WRITE ex=expression;
+
+identifier
+    : name=IDENT
+    | name=IDENT SQUAREOPEN element=expression SQUARECLOSE
+    | name=IDENT DOT FST
+    | name=IDENT DOT SND
+    ;
+
+expression : expressionL | expressionA;
+
+expressionL
+     : expressionIdentifier
+     | expressionArrayAccess
+     | expressionRecordFirst
+     | expressionRecordSecond
+     | expressionConstantInteger
+     ;
+
+expressionA
+     : expressionIdentifier
+     | expressionArrayAccess
+     | expressionRecordFirst
+     | expressionRecordSecond
+     | expressionConstantInteger
+     ;
+
+expressionOpA
+     : expressionA op=operatorCompare expressionA;
+
+expressionIdentifier      : ident=identifier ;
+expressionArrayAccess     : ident=identifier SQUAREOPEN element=expression SQUARECLOSE ;
+expressionRecordFirst     : ident=identifier DOT FST ;
+expressionRecordSecond    : ident=identifier DOT SND ;
+expressionConstantInteger : value=INT ;
+
+
+
+operatorCompare
+     : LESSTHAN
+     | GREATERTHAN
+     | LESSTHANOREQUAL
+     | GREATERTHANOREQUAL
+     | NOTEQUALS
+     ;
+
+varDeclaration : var=variable SEMICOLON;
+
+variable : type variableName=IDENT
+  ;
+
+type
+   : typeBasic
+   | typeArray
+   ;
+
+typeBasic
+  : typeInt
+  | typeRecord
+  ;
+
+typeArray
+    : typeBasic SQUAREOPEN INT SQUARECLOSE
+    ;
+
+typeInt : TYPEINT ;
+
+typeRecord : CURLYOPEN TYPEINT FST SEMICOLON TYPEINT SND CURLYCLOSE ;
+
+
+TYPEINT : 'int' ;
+FST : 'fst';
+SND : 'snd';
+
+//Operators
+PLUS : '+' ;
+MINUS : '-' ;
+TIMES : '*' ;
+DIVIDE : '/';
+MODULU : '%';
+
+LESSTHAN : '<' ;
+GREATERTHAN : '>';
+LESSTHANOREQUAL : LESSTHAN EQUAL;
+GREATERTHANOREQUAL : GREATERTHAN EQUAL;
+EQUALS : '==' ;
+NOTEQUALS : '!=';
+NOT : 'not' ;
+
+AND : '&' ;
+OR : '|';
+
+SEMICOLON : ';' ;
+COLON : ':';
+EQUAL : '=' ;
+DOT : '.' ;
+COMMA : ',';
+
+ROUNDOPEN : '(' ;
+ROUNDCLOSE : ')' ;
+SQUAREOPEN : '[' ;
+SQUARECLOSE : ']' ;
+CURLYOPEN : '{' ;
+CURLYCLOSE : '}' ;
+
+TRUE : 'true' ;
+FALSE : 'false' ;
+IF : 'if' ;
+ELSE : 'else' ;
+WHILE : 'while' ;
+READ : 'read' ;
+WRITE : 'write' ;
+
+fragment LOWER : ('a'..'z');
+fragment UPPER : ('A'..'Z');
+fragment NONNULL : ('1'..'9');
+fragment NUMBER : ('0' | NONNULL);
+IDENT : ( LOWER | UPPER ) ( LOWER | UPPER | NUMBER | '_' )*;
+INT : '0' | ( NONNULL NUMBER* );
+WHITESPACE  :   [ \t\n\r]+ -> skip;
