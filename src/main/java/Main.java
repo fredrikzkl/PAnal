@@ -3,6 +3,8 @@ import Model.AST.*;
 import Model.Flowgraph.FlowNode;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 public class Main {
@@ -16,9 +18,14 @@ public class Main {
 //            System.out.println(flowNode.toString());
 //        }
 
-        Parser parser = new Parser(testProgram());
-        parser.parse();
-
+//        Parser parser = new Parser(testProgram());
+//        parser.parse();
+        String filename = System.getProperty("user.dir") + "/src/main/resources/exampleProgram1.txt";
+        try {
+            Parser.parse(filename);
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void traverse(Node node) {

@@ -13,14 +13,18 @@ statement
     | statementWhile
     | statementRead
     | statementWrite
+    | statementBreak
+    | statementContinue
     ;
 
 statementAssign         : lhs=identifier COLON EQUAL rhs=expression SEMICOLON ;
 statementAssignRecord   : lhs=identifier COLON EQUAL ROUNDOPEN fst=expression COMMA snd=expression ROUNDCLOSE SEMICOLON ;
 statementIf             : IF ROUNDOPEN condition=expression ROUNDCLOSE ifBlock=block (ELSE elseBlock=block )? ;
 statementWhile          : WHILE ROUNDOPEN condition=expression ROUNDCLOSE whileBlock=statement ;
-statementRead           : READ var=identifier;
-statementWrite          : WRITE ex=expression;
+statementRead           : READ var=identifier SEMICOLON;
+statementWrite          : WRITE ex=expression SEMICOLON;
+statementBreak          : BREAK SEMICOLON;
+statementContinue       : CONTINUE SEMICOLON;
 
 identifier
     : name=IDENT
@@ -29,41 +33,57 @@ identifier
     | name=IDENT DOT SND
     ;
 
-expression : expressionL | expressionA;
+expression
+     : expressionL
+     | expressionA
+     | expressionB;
 
 expressionL
      : expressionIdentifier
-     | expressionArrayAccess
      | expressionRecordFirst
      | expressionRecordSecond
-     | expressionConstantInteger
      ;
 
 expressionA
-     : expressionIdentifier
-     | expressionArrayAccess
-     | expressionRecordFirst
-     | expressionRecordSecond
+     : expressionL
      | expressionConstantInteger
+     | lhs=expressionA op=operatorNumeric rhs=expressionA
      ;
 
-expressionOpA
-     : expressionA op=operatorCompare expressionA;
+expressionB
+     : TRUE
+     | FALSE
+     | expressionCompare
+     | lhs=expressionB op=operatorBool rhs=expressionB
+     | NOT expressionB
+     ;
 
 expressionIdentifier      : ident=identifier ;
-expressionArrayAccess     : ident=identifier SQUAREOPEN element=expression SQUARECLOSE ;
 expressionRecordFirst     : ident=identifier DOT FST ;
 expressionRecordSecond    : ident=identifier DOT SND ;
 expressionConstantInteger : value=INT ;
+expressionCompare : lhs=expressionA op=operatorCompare rhs=expressionA;
 
-
+operatorNumeric
+     : PLUS
+     | MINUS
+     | TIMES
+     | DIVIDE
+     | MODULU
+     ;
 
 operatorCompare
      : LESSTHAN
      | GREATERTHAN
      | LESSTHANOREQUAL
      | GREATERTHANOREQUAL
+     | EQUALS
      | NOTEQUALS
+     ;
+
+operatorBool
+     : AND
+     | OR
      ;
 
 varDeclaration : var=variable SEMICOLON;
@@ -82,7 +102,7 @@ typeBasic
   ;
 
 typeArray
-    : typeBasic SQUAREOPEN INT SQUARECLOSE
+    : typeBasic SQUAREOPEN value=INT SQUARECLOSE
     ;
 
 typeInt : TYPEINT ;
@@ -132,6 +152,8 @@ ELSE : 'else' ;
 WHILE : 'while' ;
 READ : 'read' ;
 WRITE : 'write' ;
+BREAK : 'break' ;
+CONTINUE : 'continue' ;
 
 fragment LOWER : ('a'..'z');
 fragment UPPER : ('A'..'Z');
