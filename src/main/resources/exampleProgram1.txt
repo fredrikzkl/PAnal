@@ -1,7 +1,9 @@
 {
     int i;
     {int fst; int snd} R;
-    int[10] A;
+    int n;
+    n:=10;
+    int[n] A;
     while (i<10) {
         read A[i];
         i:=i+1;

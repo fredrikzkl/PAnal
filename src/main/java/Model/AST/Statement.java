@@ -53,10 +53,10 @@ public class Statement extends Node {
             case READ:
             case WRITE:
             case DECLARATION:
-                return Collections.singletonList(new FlowNode(this.toString()));
+                return Collections.singletonList(new FlowNode());
             case WHILE:
                 List<FlowNode> result = new ArrayList<>();
-                FlowNode cond = new FlowNode(this.getEdges().get(0).toString());
+                FlowNode cond = new FlowNode();
                 result.add(cond);
                 List<FlowNode> temp = new ArrayList<>(((Statement)this.getEdges().get(1)).getFlowNodes());
                 result.addAll(temp);

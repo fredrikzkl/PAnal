@@ -43,6 +43,7 @@ public class Parser {
         ParseTree parseTree = microCParser.program();
         if (microCParser.getNumberOfSyntaxErrors() > 0)
             throw new ParseException("Found more than 0 syntax errors", microCParser.getNumberOfSyntaxErrors());
-
+        FlowNodeVisitor visitor = new FlowNodeVisitor();
+        visitor.visit(parseTree);
     }
 }

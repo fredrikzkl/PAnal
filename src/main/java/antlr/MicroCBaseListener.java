@@ -1,4 +1,5 @@
-package antlr;// Generated from C:/Users/Kaare/IdeaProjects/PAnal/src/main/antlr\MicroC.g4 by ANTLR 4.7
+// Generated from C:/Users/Kaare/IdeaProjects/PAnal/src/main/java/antlr\MicroC.g4 by ANTLR 4.7
+package antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;

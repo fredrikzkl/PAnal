@@ -2,11 +2,12 @@ grammar MicroC;
 
 program : block;
 
-block : CURLYOPEN ( varDeclaration )* ( statement )* CURLYCLOSE;
+block : CURLYOPEN ( statement )* CURLYCLOSE;
 
 
 statement
     : block
+    | varDeclaration
     | statementAssign
     | statementAssignRecord
     | statementIf
@@ -102,7 +103,7 @@ typeBasic
   ;
 
 typeArray
-    : typeBasic SQUAREOPEN value=INT SQUARECLOSE
+    : typeBasic SQUAREOPEN value=expressionA SQUARECLOSE
     ;
 
 typeInt : TYPEINT ;
