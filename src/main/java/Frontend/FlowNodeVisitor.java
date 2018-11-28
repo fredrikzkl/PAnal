@@ -60,21 +60,21 @@ public class FlowNodeVisitor {
     }
 
     public FlowNode visitStatementAssign(StatementAssignContext ctx, FlowNode flowNode) {
-        extractFNVariableFromIdentifier(ctx.lhs, flowNode.getLhsVariables());
-        extractFNVariableFromExpression(ctx.rhs, flowNode.getRhsVariables());
+        extractFNVariableFromIdentifier(ctx.lhs, flowNode.getWriteVariables());
+        extractFNVariableFromExpression(ctx.rhs, flowNode.getReadVariables());
         return flowNode;
     }
 
     public FlowNode visitStatementAssignRecord(StatementAssignRecordContext ctx, FlowNode flowNode) {
-        extractFNVariableFromIdentifier(ctx.lhs, flowNode.getLhsVariables());
-        extractFNVariableFromExpressionNumeric(ctx.fst, flowNode.getRhsVariables());
-        flowNode.addRhsVariable(new FNVariable());
-        extractFNVariableFromExpressionNumeric(ctx.snd, flowNode.getRhsVariables());
+        extractFNVariableFromIdentifier(ctx.lhs, flowNode.getWriteVariables());
+        extractFNVariableFromExpressionNumeric(ctx.fst, flowNode.getReadVariables());
+        flowNode.addReadVariable(new FNVariable());
+        extractFNVariableFromExpressionNumeric(ctx.snd, flowNode.getReadVariables());
         return flowNode;
     }
 
     public FlowNode visitStatementIf(StatementIfContext ctx, FlowNode flowNode) {
-        extractFNVariableExpressionFromBoolean(ctx.condition, flowNode.getRhsVariables());
+        extractFNVariableExpressionFromBoolean(ctx.condition, flowNode.getReadVariables());
         FlowNode newFlowNode = new FlowNode(++id);
         flowNode.addEdge(newFlowNode);
         FlowNode ifBlockFinalFlowNode = visitBlock(ctx.ifBlock, newFlowNode);
@@ -87,7 +87,7 @@ public class FlowNodeVisitor {
     }
 
     public FlowNode visitStatementWhile(StatementWhileContext ctx, FlowNode flowNode) {
-        extractFNVariableExpressionFromBoolean(ctx.condition, flowNode.getRhsVariables());
+        extractFNVariableExpressionFromBoolean(ctx.condition, flowNode.getReadVariables());
         FlowNode newFlowNode = new FlowNode(++id);
         flowNode.addEdge(newFlowNode);
         FlowNode newFinalFlowNode = visitBlock(ctx.whileBlock, newFlowNode);
@@ -96,12 +96,12 @@ public class FlowNodeVisitor {
     }
 
     public FlowNode visitStatementRead(StatementReadContext ctx, FlowNode flowNode) {
-        extractFNVariableFromIdentifier(ctx.var, flowNode.getLhsVariables());
+        extractFNVariableFromIdentifier(ctx.var, flowNode.getWriteVariables());
         return flowNode;
     }
 
     public FlowNode visitStatementWrite(StatementWriteContext ctx, FlowNode flowNode) {
-        extractFNVariableFromExpression(ctx.ex, flowNode.getRhsVariables());
+        extractFNVariableFromExpression(ctx.ex, flowNode.getReadVariables());
         return flowNode;
     }
 
@@ -124,12 +124,12 @@ public class FlowNodeVisitor {
                 fnVariable.setType(FNVariable.Type.INT);
             else if (ctx.type().typeBasic().typeRecord() != null)
                 fnVariable.setType(FNVariable.Type.RECORD);
-            flowNode.addLhsVariable(fnVariable);
+            flowNode.addWriteVariable(fnVariable);
         } else if (ctx.type().typeArray() != null) {
             fnVariable.setType(FNVariable.Type.ARRAY);
-            flowNode.addLhsVariable(fnVariable);
-            flowNode.addLhsVariable(new FNVariable());
-            extractFNVariableFromExpressionNumeric(ctx.type().typeArray().value, flowNode.getLhsVariables());
+            flowNode.addWriteVariable(fnVariable);
+            flowNode.addWriteVariable(new FNVariable());
+            extractFNVariableFromExpressionNumeric(ctx.type().typeArray().value, flowNode.getWriteVariables());
         }
         return flowNode;
     }

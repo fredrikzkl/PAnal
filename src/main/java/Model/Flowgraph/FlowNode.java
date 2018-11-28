@@ -8,8 +8,8 @@ public class FlowNode {
 
     private int id;
     private List<FlowNode> edges;
-    private List<FNVariable> lhsVariables;
-    private List<FNVariable> rhsVariables;
+    private List<FNVariable> writeVariables;
+    private List<FNVariable> readVariables;
 
     public FlowNode(int id) {
         this(id, new ArrayList<>());
@@ -22,8 +22,8 @@ public class FlowNode {
     public FlowNode(int id, List<FlowNode> edges, List<FNVariable> lhsVariables, List<FNVariable> rhsVariables) {
         this.id = id;
         this.edges = edges;
-        this.lhsVariables = lhsVariables;
-        this.rhsVariables = rhsVariables;
+        this.writeVariables = lhsVariables;
+        this.readVariables = rhsVariables;
     }
 
     public int getId() {
@@ -48,32 +48,32 @@ public class FlowNode {
         this.edges.add(edge);
     }
 
-    public List<FNVariable> getLhsVariables() {
-        if (this.lhsVariables == null) {
-            this.lhsVariables = new ArrayList<>();
+    public List<FNVariable> getWriteVariables() {
+        if (this.writeVariables == null) {
+            this.writeVariables = new ArrayList<>();
         }
-        return this.lhsVariables;
+        return this.writeVariables;
     }
 
-    public void addLhsVariable(FNVariable variable) {
-        if (this.lhsVariables == null) {
-            this.lhsVariables = new ArrayList<>();
+    public void addWriteVariable(FNVariable variable) {
+        if (this.writeVariables == null) {
+            this.writeVariables = new ArrayList<>();
         }
-        this.lhsVariables.add(variable);
+        this.writeVariables.add(variable);
     }
 
-    public List<FNVariable> getRhsVariables() {
-        if (this.rhsVariables == null) {
-            this.rhsVariables = new ArrayList<>();
+    public List<FNVariable> getReadVariables() {
+        if (this.readVariables == null) {
+            this.readVariables = new ArrayList<>();
         }
-        return this.rhsVariables;
+        return this.readVariables;
     }
 
-    public void addRhsVariable(FNVariable variable) {
-        if (this.rhsVariables == null) {
-            this.rhsVariables = new ArrayList<>();
+    public void addReadVariable(FNVariable variable) {
+        if (this.readVariables == null) {
+            this.readVariables = new ArrayList<>();
         }
-        this.rhsVariables.add(variable);
+        this.readVariables.add(variable);
     }
 
     @Override
@@ -82,19 +82,19 @@ public class FlowNode {
         return "---------------------------------------------------\n"
                 + id
                 + (this.getEdges().size() > 0
-                    ? "\tE: " + this.getEdges().stream().map(f -> String.valueOf(f.getId())).collect(Collectors.joining(", "))
+                    ? "\tEdges \t:: " + this.getEdges().stream().map(f -> String.valueOf(f.getId())).collect(Collectors.joining(", "))
                     : "")
-                + (this.lhsVariables.size() > 0
+                + (this.writeVariables.size() > 0
                     ? (this.getEdges().size() > 0
                         ? "\n"
                         : "")
-                    + "\tlhs :: " + this.lhsVariables.stream().map(Object::toString).collect(Collectors.joining(", "))
+                    + "\tWrite \t:: " + this.writeVariables.stream().map(Object::toString).collect(Collectors.joining(", "))
                     : "")
-                + (this.rhsVariables.size() > 0
-                    ? (this.lhsVariables.size() > 0 || this.getEdges().size() > 0
+                + (this.readVariables.size() > 0
+                    ? (this.writeVariables.size() > 0 || this.getEdges().size() > 0
                         ? "\n"
                         : "")
-                    + "\trhs :: " + this.rhsVariables.stream().map(Object::toString).collect(Collectors.joining(", "))
+                    + "\tRead \t:: " + this.readVariables.stream().map(Object::toString).collect(Collectors.joining(", "))
                     : "")
                 + (this.getEdges().stream().anyMatch(f -> !FlowNode.visitedNotes.contains(f.id))
                     ? "\n" + this.getEdges().stream().filter(f -> !FlowNode.visitedNotes.contains(f.id)).map(FlowNode::toString).collect(Collectors.joining("\n"))

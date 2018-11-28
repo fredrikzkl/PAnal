@@ -42,12 +42,33 @@ public class FNVariable {
         ARRAY,
         RECORD,
         RECORDFST,
-        RECORDSCND
+        RECORDSCND;
+
+
+        @Override
+        public String toString() {
+            switch (this) {
+                case CONSTANT:
+                    return "Constant";
+                case INT:
+                    return "Integer";
+                case ARRAY:
+                    return "Array";
+                case RECORD:
+                    return "Record";
+                case RECORDFST:
+                    return "R.FST";
+                case RECORDSCND:
+                    return "R.SND";
+                default:
+                    return super.toString();
+            }
+        }
     }
 
     @Override
     public String toString() {
-        return type + ":"
+        return type.toString() + ":"
                 + (name != null ? " " + name : "")
                 + (value != null ? " value: " + value : "");
     }
