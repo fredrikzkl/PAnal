@@ -4,7 +4,6 @@ import Model.Flowgraph.FNVariable;
 import Model.Flowgraph.FlowNode;
 import antlr.MicroCParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -34,9 +33,6 @@ public class FlowNodeVisitor {
         }
         System.err.println("FAILED TO INVOKE CHILD METHOD: " + parseTree.getText());
         return null;
-    }
-
-    public void visitTerminalNode(TerminalNodeImpl node, FlowNode flowNode) {
     }
 
     public FlowNode visitProgram(ProgramContext ctx) {
@@ -70,7 +66,6 @@ public class FlowNodeVisitor {
                     }
                 }
             }
-
         }
         return flowNode;
     }
