@@ -1,42 +1,17 @@
 package Frontend;
 
-import Model.AST.Node;
 import Model.Flowgraph.FlowNode;
 import antlr.MicroCLexer;
 import antlr.MicroCParser;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Parser {
-    private String program;
-
-    public Parser(String program) {
-        this.program = program;
-    }
-
-    public Node parse() {
-        if (this.program == null) {
-            throw new IllegalArgumentException("Program not initialized");
-        }
-        if (!this.program.startsWith("{") || !this.program.endsWith("}")) {
-            throw new IllegalArgumentException("Program not formatted properly");
-        }
-
-        String[] lines = this.program.split("\n");
-
-        System.out.println(Arrays.toString(lines));
-
-        return new Node();
-    }
-
-    public static void parse(String filename) throws ParseException, IOException {
+    public static FlowNode parse(String filename) throws ParseException, IOException {
         CharStream input = CharStreams.fromFileName(filename);
         MicroCLexer lexer = new MicroCLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -45,9 +20,6 @@ public class Parser {
         if (microCParser.getNumberOfSyntaxErrors() > 0)
             throw new ParseException("Found more than 0 syntax errors", microCParser.getNumberOfSyntaxErrors());
         FlowNodeVisitor visitor = new FlowNodeVisitor();
-        FlowNode flowNode = visitor.visitProgram(parseTree);
-
-        FlowNode.visitedNotes = new ArrayList<>();
-        System.out.println(flowNode);
+        return visitor.visitProgram(parseTree);
     }
 }

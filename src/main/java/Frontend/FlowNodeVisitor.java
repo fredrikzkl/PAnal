@@ -8,10 +8,18 @@ import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class FlowNodeVisitor {
     private int id = 0;
+    private Stack<FlowNode> currentWhileLoopFlowNodes = new Stack<>();
+    private List<FlowNode> currentBreakFlowNodes = new ArrayList<>();
+    private List<FlowNode> currentIfElseFinalFlowNodes = new ArrayList<>();
+
     private FlowNode invokeChildMethod(ParseTree parseTree, FlowNode flowNode) {
         for (Method method : this.getClass().getMethods()) {
             Class<?>[] params = method.getParameterTypes();
@@ -38,15 +46,31 @@ public class FlowNodeVisitor {
     }
 
     public FlowNode visitBlock(BlockContext ctx, FlowNode flowNode) {
-        boolean first = true;
-        for (StatementContext child : ctx.statement()) {
-            if (!first) {
+        Iterator<StatementContext> iterator = ctx.statement().iterator();
+        while (iterator.hasNext()) {
+            StatementContext child = iterator.next();
+            flowNode = visitStatement(child, flowNode);
+            if (iterator.hasNext()) {
                 FlowNode orgFlowNode = flowNode;
                 flowNode = new FlowNode(++id);
-                orgFlowNode.addEdge(flowNode);
+                if (!orgFlowNode.isContinueNode() && !orgFlowNode.isBreakNode())
+                    orgFlowNode.addEdge(flowNode);
+                Iterator<FlowNode> flowNodeIterator = currentIfElseFinalFlowNodes.iterator();
+                while (flowNodeIterator.hasNext()) {
+                    FlowNode next = flowNodeIterator.next();
+                    if (!next.isContinueNode() && !next.isBreakNode())
+                        next.addEdge(flowNode);
+                    flowNodeIterator.remove();
+                }
+                if (child.statementWhile() != null) {
+                    flowNodeIterator = currentBreakFlowNodes.iterator();
+                    while (flowNodeIterator.hasNext()) {
+                        flowNodeIterator.next().addEdge(flowNode);
+                        flowNodeIterator.remove();
+                    }
+                }
             }
-            first = false;
-            flowNode = visitStatement(child, flowNode);
+
         }
         return flowNode;
     }
@@ -54,6 +78,7 @@ public class FlowNodeVisitor {
     public FlowNode visitStatement(StatementContext ctx, FlowNode flowNode) {
         FlowNode result = null;
         for (ParseTree child : ctx.children) {
+            flowNode.setStatement(child.getText());
             result = invokeChildMethod(child, flowNode);
         }
         return result;
@@ -74,25 +99,35 @@ public class FlowNodeVisitor {
     }
 
     public FlowNode visitStatementIf(StatementIfContext ctx, FlowNode flowNode) {
-        extractFNVariableExpressionFromBoolean(ctx.condition, flowNode.getReadVariables());
-        FlowNode newFlowNode = new FlowNode(++id);
-        flowNode.addEdge(newFlowNode);
+        flowNode.setStatement(ctx.children.subList(0, 4).stream().map(ParseTree::getText).collect(Collectors.joining()));
+        FlowNode newFlowNode = extractCondition(ctx.condition, flowNode);
         FlowNode ifBlockFinalFlowNode = visitBlock(ctx.ifBlock, newFlowNode);
-        //if (ctx.elseBlock != null) {
-         //   newFlowNode = new FlowNode(++id);
-          //  flowNode.addEdge(newFlowNode);
-           // FlowNode elseBlockFinalFlowNode = visitBlock(ctx.elseBlock, newFlowNode);
-        //}
+        if (ctx.elseBlock != null) {
+            newFlowNode = new FlowNode(++id);
+            flowNode.addEdge(newFlowNode);
+            FlowNode elseBlockFinalFlowNode = visitBlock(ctx.elseBlock, newFlowNode);
+            currentIfElseFinalFlowNodes.add(elseBlockFinalFlowNode);
+        } else {
+            currentIfElseFinalFlowNodes.add(flowNode);
+        }
         return ifBlockFinalFlowNode;
     }
 
     public FlowNode visitStatementWhile(StatementWhileContext ctx, FlowNode flowNode) {
-        extractFNVariableExpressionFromBoolean(ctx.condition, flowNode.getReadVariables());
-        FlowNode newFlowNode = new FlowNode(++id);
-        flowNode.addEdge(newFlowNode);
+        flowNode.setStatement(ctx.children.subList(0, 4).stream().map(ParseTree::getText).collect(Collectors.joining()));
+        FlowNode newFlowNode = extractCondition(ctx.condition, flowNode);
+        currentWhileLoopFlowNodes.push(flowNode);
         FlowNode newFinalFlowNode = visitBlock(ctx.whileBlock, newFlowNode);
+        currentWhileLoopFlowNodes.pop();
         newFinalFlowNode.addEdge(flowNode);
         return flowNode;
+    }
+
+    private FlowNode extractCondition(ExpressionBooleanContext ctx, FlowNode flowNode) {
+        extractFNVariableExpressionFromBoolean(ctx, flowNode.getReadVariables());
+        FlowNode newFlowNode = new FlowNode(++id);
+        flowNode.addEdge(newFlowNode);
+        return newFlowNode;
     }
 
     public FlowNode visitStatementRead(StatementReadContext ctx, FlowNode flowNode) {
@@ -106,14 +141,21 @@ public class FlowNodeVisitor {
     }
 
     public FlowNode visitStatementBreak(StatementBreakContext ctx, FlowNode flowNode) {
-        return null;
+        if (currentWhileLoopFlowNodes.empty())
+            throw new IllegalArgumentException("Break called outside while loop");
+        currentBreakFlowNodes.add(flowNode);
+        return flowNode;
     }
 
     public FlowNode visitStatementContinue(StatementContinueContext ctx, FlowNode flowNode) {
-        return null;
+        if (currentWhileLoopFlowNodes.empty())
+            throw new IllegalArgumentException("Continue called outside while loop");
+        flowNode.addEdge(currentWhileLoopFlowNodes.peek());
+        return flowNode;
     }
 
     public FlowNode visitVarDeclaration(VarDeclarationContext ctx, FlowNode flowNode) {
+        flowNode.setStatement(ctx.getText());
         return visitVariable(ctx.var, flowNode);
     }
 

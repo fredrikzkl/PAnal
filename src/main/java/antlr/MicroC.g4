@@ -4,10 +4,8 @@ program : block;
 
 block : CURLYOPEN ( statement )* CURLYCLOSE;
 
-
 statement
-    : block
-    | varDeclaration
+    : varDeclaration
     | statementAssign
     | statementAssignRecord
     | statementIf
@@ -21,7 +19,7 @@ statement
 statementAssign         : lhs=identifier COLON EQUAL rhs=expression SEMICOLON ;
 statementAssignRecord   : lhs=identifier COLON EQUAL ROUNDOPEN fst=expressionNumeric COMMA snd=expressionNumeric ROUNDCLOSE SEMICOLON ;
 statementIf             : IF ROUNDOPEN condition=expressionBoolean ROUNDCLOSE ifBlock=block (ELSE elseBlock=block )? ;
-statementWhile          : WHILE ROUNDOPEN condition=expressionBoolean ROUNDCLOSE whileBlock=block ;
+statementWhile          : WHILE ROUNDOPEN condition=expressionBoolean ROUNDCLOSE whileBlock=block;
 statementRead           : READ var=identifier SEMICOLON;
 statementWrite          : WRITE ex=expression SEMICOLON;
 statementBreak          : BREAK SEMICOLON;
