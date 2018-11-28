@@ -1,4 +1,4 @@
-// Generated from C:/Users/Kaare/IdeaProjects/PAnal/src/main/java/antlr\MicroC.g4 by ANTLR 4.7
+// Generated from C:/Users/kjj.ITMDKLT105/IdeaProjects/PAnal/src/main/java/antlr\MicroC.g4 by ANTLR 4.7
 package antlr;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -108,21 +108,14 @@ public class MicroCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionL(MicroCParser.ExpressionLContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpressionNumeric(MicroCParser.ExpressionNumericContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionA(MicroCParser.ExpressionAContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitExpressionB(MicroCParser.ExpressionBContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpressionBoolean(MicroCParser.ExpressionBooleanContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -136,20 +129,6 @@ public class MicroCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionRecordFirst(MicroCParser.ExpressionRecordFirstContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitExpressionRecordSecond(MicroCParser.ExpressionRecordSecondContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitExpressionConstantInteger(MicroCParser.ExpressionConstantIntegerContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -157,7 +136,7 @@ public class MicroCBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionCompare(MicroCParser.ExpressionCompareContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpressionCompare(MicroCParser.ExpressionNumericCompareContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

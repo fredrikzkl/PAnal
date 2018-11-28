@@ -19,51 +19,48 @@ statement
     ;
 
 statementAssign         : lhs=identifier COLON EQUAL rhs=expression SEMICOLON ;
-statementAssignRecord   : lhs=identifier COLON EQUAL ROUNDOPEN fst=expression COMMA snd=expression ROUNDCLOSE SEMICOLON ;
-statementIf             : IF ROUNDOPEN condition=expression ROUNDCLOSE ifBlock=block (ELSE elseBlock=block )? ;
-statementWhile          : WHILE ROUNDOPEN condition=expression ROUNDCLOSE whileBlock=statement ;
+statementAssignRecord   : lhs=identifier COLON EQUAL ROUNDOPEN fst=expressionNumeric COMMA snd=expressionNumeric ROUNDCLOSE SEMICOLON ;
+statementIf             : IF ROUNDOPEN condition=expressionBoolean ROUNDCLOSE ifBlock=block (ELSE elseBlock=block )? ;
+statementWhile          : WHILE ROUNDOPEN condition=expressionBoolean ROUNDCLOSE whileBlock=block ;
 statementRead           : READ var=identifier SEMICOLON;
 statementWrite          : WRITE ex=expression SEMICOLON;
 statementBreak          : BREAK SEMICOLON;
 statementContinue       : CONTINUE SEMICOLON;
 
 identifier
-    : name=IDENT
-    | name=IDENT SQUAREOPEN element=expression SQUARECLOSE
-    | name=IDENT DOT FST
-    | name=IDENT DOT SND
+    : identifierInt
+    | identifierArray
+    | identifierRecordFst
+    | identifierRecordSND
     ;
 
+identifierInt       : name=IDENT;
+identifierArray     : name=IDENT SQUAREOPEN element=expressionNumeric SQUARECLOSE;
+identifierRecordFst : name=IDENT DOT FST;
+identifierRecordSND : name=IDENT DOT SND;
+
 expression
-     : expressionL
-     | expressionA
-     | expressionB;
+     : expressionNumeric
+     | expressionBoolean
+     ;
 
-expressionL
+expressionNumeric
      : expressionIdentifier
-     | expressionRecordFirst
-     | expressionRecordSecond
-     ;
-
-expressionA
-     : expressionL
      | expressionConstantInteger
-     | lhs=expressionA op=operatorNumeric rhs=expressionA
+     | lhs=expressionNumeric op=operatorNumeric rhs=expressionNumeric
      ;
 
-expressionB
+expressionBoolean
      : TRUE
      | FALSE
-     | expressionCompare
-     | lhs=expressionB op=operatorBool rhs=expressionB
-     | NOT expressionB
+     | expressionNumericCompare
+     | eblhs=expressionBoolean op=operatorBool ebrhs=expressionBoolean
+     | NOT nrhs=expressionBoolean
      ;
 
-expressionIdentifier      : ident=identifier ;
-expressionRecordFirst     : ident=identifier DOT FST ;
-expressionRecordSecond    : ident=identifier DOT SND ;
-expressionConstantInteger : value=INT ;
-expressionCompare : lhs=expressionA op=operatorCompare rhs=expressionA;
+expressionIdentifier        : ident=identifier ;
+expressionConstantInteger   : value=INT ;
+expressionNumericCompare    : lhs=expressionNumeric op=operatorCompare rhs=expressionNumeric;
 
 operatorNumeric
      : PLUS
@@ -103,7 +100,7 @@ typeBasic
   ;
 
 typeArray
-    : typeBasic SQUAREOPEN value=expressionA SQUARECLOSE
+    : typeBasic SQUAREOPEN value=expressionNumeric SQUARECLOSE
     ;
 
 typeInt : TYPEINT ;
@@ -128,7 +125,7 @@ LESSTHANOREQUAL : LESSTHAN EQUAL;
 GREATERTHANOREQUAL : GREATERTHAN EQUAL;
 EQUALS : '==' ;
 NOTEQUALS : '!=';
-NOT : 'not' ;
+NOT : '!' ;
 
 AND : '&' ;
 OR : '|';

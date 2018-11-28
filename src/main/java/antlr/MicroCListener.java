@@ -1,4 +1,4 @@
-// Generated from C:/Users/Kaare/IdeaProjects/PAnal/src/main/java/antlr\MicroC.g4 by ANTLR 4.7
+// Generated from C:/Users/kjj.ITMDKLT105/IdeaProjects/PAnal/src/main/java/antlr\MicroC.g4 by ANTLR 4.7
 package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -128,6 +128,46 @@ public interface MicroCListener extends ParseTreeListener {
 	 */
 	void exitIdentifier(MicroCParser.IdentifierContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MicroCParser#identifierInt}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifierInt(MicroCParser.IdentifierIntContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MicroCParser#identifierInt}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifierInt(MicroCParser.IdentifierIntContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MicroCParser#identifierArray}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifierArray(MicroCParser.IdentifierArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MicroCParser#identifierArray}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifierArray(MicroCParser.IdentifierArrayContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MicroCParser#identifierRecordFst}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifierRecordFst(MicroCParser.IdentifierRecordFstContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MicroCParser#identifierRecordFst}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifierRecordFst(MicroCParser.IdentifierRecordFstContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MicroCParser#identifierRecordSND}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifierRecordSND(MicroCParser.IdentifierRecordSNDContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MicroCParser#identifierRecordSND}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifierRecordSND(MicroCParser.IdentifierRecordSNDContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MicroCParser#expression}.
 	 * @param ctx the parse tree
 	 */
@@ -138,35 +178,25 @@ public interface MicroCListener extends ParseTreeListener {
 	 */
 	void exitExpression(MicroCParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MicroCParser#expressionL}.
+	 * Enter a parse tree produced by {@link MicroCParser#expressionNumeric}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpressionL(MicroCParser.ExpressionLContext ctx);
+	void enterExpressionNumeric(MicroCParser.ExpressionNumericContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MicroCParser#expressionL}.
+	 * Exit a parse tree produced by {@link MicroCParser#expressionNumeric}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpressionL(MicroCParser.ExpressionLContext ctx);
+	void exitExpressionNumeric(MicroCParser.ExpressionNumericContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MicroCParser#expressionA}.
+	 * Enter a parse tree produced by {@link MicroCParser#expressionBoolean}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpressionA(MicroCParser.ExpressionAContext ctx);
+	void enterExpressionBoolean(MicroCParser.ExpressionBooleanContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MicroCParser#expressionA}.
+	 * Exit a parse tree produced by {@link MicroCParser#expressionBoolean}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpressionA(MicroCParser.ExpressionAContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MicroCParser#expressionB}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionB(MicroCParser.ExpressionBContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MicroCParser#expressionB}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionB(MicroCParser.ExpressionBContext ctx);
+	void exitExpressionBoolean(MicroCParser.ExpressionBooleanContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MicroCParser#expressionIdentifier}.
 	 * @param ctx the parse tree
@@ -178,26 +208,6 @@ public interface MicroCListener extends ParseTreeListener {
 	 */
 	void exitExpressionIdentifier(MicroCParser.ExpressionIdentifierContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MicroCParser#expressionRecordFirst}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionRecordFirst(MicroCParser.ExpressionRecordFirstContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MicroCParser#expressionRecordFirst}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionRecordFirst(MicroCParser.ExpressionRecordFirstContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MicroCParser#expressionRecordSecond}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionRecordSecond(MicroCParser.ExpressionRecordSecondContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MicroCParser#expressionRecordSecond}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionRecordSecond(MicroCParser.ExpressionRecordSecondContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link MicroCParser#expressionConstantInteger}.
 	 * @param ctx the parse tree
 	 */
@@ -208,15 +218,15 @@ public interface MicroCListener extends ParseTreeListener {
 	 */
 	void exitExpressionConstantInteger(MicroCParser.ExpressionConstantIntegerContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MicroCParser#expressionCompare}.
+	 * Enter a parse tree produced by {@link MicroCParser#expressionNumericCompare}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpressionCompare(MicroCParser.ExpressionCompareContext ctx);
+	void enterExpressionNumericCompare(MicroCParser.ExpressionNumericCompareContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MicroCParser#expressionCompare}.
+	 * Exit a parse tree produced by {@link MicroCParser#expressionNumericCompare}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpressionCompare(MicroCParser.ExpressionCompareContext ctx);
+	void exitExpressionNumericCompare(MicroCParser.ExpressionNumericCompareContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MicroCParser#operatorNumeric}.
 	 * @param ctx the parse tree

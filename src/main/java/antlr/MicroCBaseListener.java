@@ -1,4 +1,4 @@
-// Generated from C:/Users/Kaare/IdeaProjects/PAnal/src/main/java/antlr\MicroC.g4 by ANTLR 4.7
+// Generated from C:/Users/kjj.ITMDKLT105/IdeaProjects/PAnal/src/main/java/antlr\MicroC.g4 by ANTLR 4.7
 package antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -160,6 +160,54 @@ public class MicroCBaseListener implements MicroCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterIdentifierInt(MicroCParser.IdentifierIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifierInt(MicroCParser.IdentifierIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentifierArray(MicroCParser.IdentifierArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifierArray(MicroCParser.IdentifierArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentifierRecordFst(MicroCParser.IdentifierRecordFstContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifierRecordFst(MicroCParser.IdentifierRecordFstContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentifierRecordSND(MicroCParser.IdentifierRecordSNDContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifierRecordSND(MicroCParser.IdentifierRecordSNDContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpression(MicroCParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -172,37 +220,25 @@ public class MicroCBaseListener implements MicroCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpressionL(MicroCParser.ExpressionLContext ctx) { }
+	@Override public void enterExpressionNumeric(MicroCParser.ExpressionNumericContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpressionL(MicroCParser.ExpressionLContext ctx) { }
+	@Override public void exitExpressionNumeric(MicroCParser.ExpressionNumericContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpressionA(MicroCParser.ExpressionAContext ctx) { }
+	@Override public void enterExpressionBoolean(MicroCParser.ExpressionBooleanContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpressionA(MicroCParser.ExpressionAContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExpressionB(MicroCParser.ExpressionBContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpressionB(MicroCParser.ExpressionBContext ctx) { }
+	@Override public void exitExpressionBoolean(MicroCParser.ExpressionBooleanContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -220,30 +256,6 @@ public class MicroCBaseListener implements MicroCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpressionRecordFirst(MicroCParser.ExpressionRecordFirstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpressionRecordFirst(MicroCParser.ExpressionRecordFirstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExpressionRecordSecond(MicroCParser.ExpressionRecordSecondContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpressionRecordSecond(MicroCParser.ExpressionRecordSecondContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterExpressionConstantInteger(MicroCParser.ExpressionConstantIntegerContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -256,13 +268,13 @@ public class MicroCBaseListener implements MicroCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpressionCompare(MicroCParser.ExpressionCompareContext ctx) { }
+	@Override public void enterExpressionNumericCompare(MicroCParser.ExpressionNumericCompareContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpressionCompare(MicroCParser.ExpressionCompareContext ctx) { }
+	@Override public void exitExpressionNumericCompare(MicroCParser.ExpressionNumericCompareContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

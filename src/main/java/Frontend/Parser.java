@@ -1,9 +1,9 @@
 package Frontend;
 
 import Model.AST.Node;
+import Model.Flowgraph.FlowNode;
 import antlr.MicroCLexer;
 import antlr.MicroCParser;
-import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Parser {
@@ -40,10 +41,13 @@ public class Parser {
         MicroCLexer lexer = new MicroCLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         MicroCParser microCParser = new MicroCParser(tokens);
-        ParseTree parseTree = microCParser.program();
+        MicroCParser.ProgramContext parseTree = microCParser.program();
         if (microCParser.getNumberOfSyntaxErrors() > 0)
             throw new ParseException("Found more than 0 syntax errors", microCParser.getNumberOfSyntaxErrors());
         FlowNodeVisitor visitor = new FlowNodeVisitor();
-        visitor.visit(parseTree);
+        FlowNode flowNode = visitor.visitProgram(parseTree);
+
+        FlowNode.visitedNotes = new ArrayList<>();
+        System.out.println(flowNode);
     }
 }

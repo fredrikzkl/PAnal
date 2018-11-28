@@ -1,4 +1,4 @@
-// Generated from C:/Users/Kaare/IdeaProjects/PAnal/src/main/java/antlr\MicroC.g4 by ANTLR 4.7
+// Generated from C:/Users/kjj.ITMDKLT105/IdeaProjects/PAnal/src/main/java/antlr\MicroC.g4 by ANTLR 4.7
 package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -89,23 +89,17 @@ public interface MicroCVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(MicroCParser.ExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MicroCParser#expressionL}.
+	 * Visit a parse tree produced by {@link MicroCParser#expressionNumeric}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpressionL(MicroCParser.ExpressionLContext ctx);
+	T visitExpressionNumeric(MicroCParser.ExpressionNumericContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MicroCParser#expressionA}.
+	 * Visit a parse tree produced by {@link MicroCParser#expressionBoolean}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpressionA(MicroCParser.ExpressionAContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MicroCParser#expressionB}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionB(MicroCParser.ExpressionBContext ctx);
+	T visitExpressionBoolean(MicroCParser.ExpressionBooleanContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MicroCParser#expressionIdentifier}.
 	 * @param ctx the parse tree
@@ -113,29 +107,17 @@ public interface MicroCVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpressionIdentifier(MicroCParser.ExpressionIdentifierContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MicroCParser#expressionRecordFirst}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionRecordFirst(MicroCParser.ExpressionRecordFirstContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MicroCParser#expressionRecordSecond}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionRecordSecond(MicroCParser.ExpressionRecordSecondContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link MicroCParser#expressionConstantInteger}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpressionConstantInteger(MicroCParser.ExpressionConstantIntegerContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MicroCParser#expressionCompare}.
+	 * Visit a parse tree produced by {@link MicroCParser#RULE_expressionNumericCompare}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpressionCompare(MicroCParser.ExpressionCompareContext ctx);
+	T visitExpressionCompare(MicroCParser.ExpressionNumericCompareContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MicroCParser#operatorNumeric}.
 	 * @param ctx the parse tree
