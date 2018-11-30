@@ -50,18 +50,18 @@ public class FlowNodeVisitor {
                 FlowNode orgFlowNode = flowNode;
                 flowNode = new FlowNode(++id);
                 if (!orgFlowNode.isContinueNode() && !orgFlowNode.isBreakNode())
-                    orgFlowNode.addEdge(flowNode);
+                    this.addEdge(orgFlowNode, flowNode);
                 Iterator<FlowNode> flowNodeIterator = currentIfElseFinalFlowNodes.iterator();
                 while (flowNodeIterator.hasNext()) {
                     FlowNode next = flowNodeIterator.next();
                     if (!next.isContinueNode() && !next.isBreakNode())
-                        next.addEdge(flowNode);
+                        this.addEdge(next, flowNode);
                     flowNodeIterator.remove();
                 }
                 if (child.statementWhile() != null) {
                     flowNodeIterator = currentBreakFlowNodes.iterator();
                     while (flowNodeIterator.hasNext()) {
-                        flowNodeIterator.next().addEdge(flowNode);
+                        this.addEdge(flowNodeIterator.next(), flowNode);
                         flowNodeIterator.remove();
                     }
                 }
@@ -99,7 +99,7 @@ public class FlowNodeVisitor {
         FlowNode ifBlockFinalFlowNode = visitBlock(ctx.ifBlock, newFlowNode);
         if (ctx.elseBlock != null) {
             newFlowNode = new FlowNode(++id);
-            flowNode.addEdge(newFlowNode);
+            this.addEdge(flowNode, newFlowNode);
             FlowNode elseBlockFinalFlowNode = visitBlock(ctx.elseBlock, newFlowNode);
             currentIfElseFinalFlowNodes.add(elseBlockFinalFlowNode);
         } else {
@@ -114,14 +114,14 @@ public class FlowNodeVisitor {
         currentWhileLoopFlowNodes.push(flowNode);
         FlowNode newFinalFlowNode = visitBlock(ctx.whileBlock, newFlowNode);
         currentWhileLoopFlowNodes.pop();
-        newFinalFlowNode.addEdge(flowNode);
+        this.addEdge(newFinalFlowNode, flowNode);
         return flowNode;
     }
 
     private FlowNode extractCondition(ExpressionBooleanContext ctx, FlowNode flowNode) {
         extractFNVariableExpressionFromBoolean(ctx, flowNode.getReadVariables());
         FlowNode newFlowNode = new FlowNode(++id);
-        flowNode.addEdge(newFlowNode);
+        this.addEdge(flowNode, newFlowNode);
         return newFlowNode;
     }
 
@@ -145,7 +145,7 @@ public class FlowNodeVisitor {
     public FlowNode visitStatementContinue(StatementContinueContext ctx, FlowNode flowNode) {
         if (currentWhileLoopFlowNodes.empty())
             throw new IllegalArgumentException("Continue called outside while loop");
-        flowNode.addEdge(currentWhileLoopFlowNodes.peek());
+        this.addEdge(flowNode, currentWhileLoopFlowNodes.peek());
         return flowNode;
     }
 
@@ -239,5 +239,10 @@ public class FlowNodeVisitor {
             fnVariables.add(fnVariable);
             return fnVariable;
         }
+    }
+
+    private void addEdge(FlowNode fromNode, FlowNode toNode) {
+        fromNode.addChild(toNode);
+        toNode.addParent(fromNode);
     }
 }

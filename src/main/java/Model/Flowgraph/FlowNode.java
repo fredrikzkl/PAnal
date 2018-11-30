@@ -1,27 +1,28 @@
 package Model.Flowgraph;
 
+import Model.Analyses.Worklist.WorklistElement;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class FlowNode {
     private int id;
     private String statement;
-    private List<FlowNode> edges;
+    private List<FlowNode> children;
+    private List<FlowNode> parents;
     private List<FNVariable> writeVariables;
     private List<FNVariable> readVariables;
 
     public FlowNode(int id) {
-        this(id, new ArrayList<>());
+        this(id, "", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
-    public FlowNode(int id, List<FlowNode> edges) {
-        this(id, "", edges, new ArrayList<>(), new ArrayList<>());
-    }
-
-    public FlowNode(int id, String statement, List<FlowNode> edges, List<FNVariable> lhsVariables, List<FNVariable> rhsVariables) {
+    public FlowNode(int id, String statement, List<FlowNode> children, List<FlowNode> parents,
+                    List<FNVariable> lhsVariables, List<FNVariable> rhsVariables) {
         this.id = id;
         this.statement = statement;
-        this.edges = edges;
+        this.children = children;
+        this.parents = parents;
         this.writeVariables = lhsVariables;
         this.readVariables = rhsVariables;
     }
@@ -42,19 +43,34 @@ public class FlowNode {
         this.id = id;
     }
 
-    public List<FlowNode> getEdges() {
-        if (this.edges == null){
-            this.edges = new ArrayList<>();
+    public List<FlowNode> getChildren() {
+        if (this.children == null){
+            this.children = new ArrayList<>();
         }
-        return edges;
+        return children;
     }
 
-    public void addEdge(FlowNode edge) {
-        if (this.edges == null){
-            this.edges = new ArrayList<>();
+    public void addChild(FlowNode edge) {
+        if (this.children == null){
+            this.children = new ArrayList<>();
         }
-        if (!this.edges.contains(edge))
-            this.edges.add(edge);
+        if (!this.children.contains(edge))
+            this.children.add(edge);
+    }
+
+    public List<FlowNode> getParents() {
+        if (this.parents == null){
+            this.parents = new ArrayList<>();
+        }
+        return parents;
+    }
+
+    public void addParent(FlowNode edge) {
+        if (this.parents == null){
+            this.parents = new ArrayList<>();
+        }
+        if (!this.parents.contains(edge))
+            this.parents.add(edge);
     }
 
     public List<FNVariable> getWriteVariables() {
@@ -94,22 +110,67 @@ public class FlowNode {
     }
 
     public List<FlowNode> getAllFlowNodes() {
-        return this.getAllFlowNodesHelper(new ArrayList<>());
+        List<FlowNode> result = this.getSuccessors();
+        if (!result.contains(this))
+            result.add(0, this);
+        return result;
     }
 
-    private List<FlowNode> getAllFlowNodesHelper(List<Integer> visitedNotes) {
+    public List<FlowNode> getSuccessors() {
+        return this.getEdges(new ArrayList<>(), true);
+    }
+
+    public List<FlowNode> getPredecessors() {
+        return this.getEdges(new ArrayList<>(), false);
+    }
+
+    private List<FlowNode> getEdges(List<Integer> visitedNotes, boolean isSuccessors) {
         List<FlowNode> allChildren = new ArrayList<>();
-        for (FlowNode edge : this.edges) {
+        for (FlowNode edge : (isSuccessors ? this.children : this.parents)) {
             if (!visitedNotes.contains(edge.getId())) {
                 allChildren.add(edge);
                 visitedNotes.add(edge.getId());
-                allChildren.addAll(edge.getAllFlowNodesHelper(visitedNotes));
+                allChildren.addAll(edge.getEdges(visitedNotes, isSuccessors));
             }
         }
-        if (!visitedNotes.contains(this.getId()))
-            allChildren.add(this);
         allChildren.sort(Comparator.comparingInt(FlowNode::getId));
         return allChildren;
+    }
+
+    public List<FNVariable> getAllUniqueVariables() {
+        return this.getAllUniqueVariables(new ArrayList<>(), new ArrayList<>());
+    }
+
+    private List<FNVariable> getAllUniqueVariables(List<Integer> visitedNotes, List<FNVariable> variables) {
+        if (!visitedNotes.contains(this.getId())) {
+            writeVariables.stream().
+                    filter(fnVariable -> variables.stream().noneMatch(fnVariable1 -> fnVariable1.getName().equals(fnVariable.getName()))).
+                    forEach(variables::add);
+            visitedNotes.add(this.getId());
+            this.children.forEach(child -> child.getAllUniqueVariables(visitedNotes, variables));
+        }
+        return variables;
+    }
+
+    public List<WorklistElement> getWorklist() {
+        return this.getWorklist(new ArrayList<>(), false);
+    }
+
+    public List<WorklistElement> getReversedWorklist() {
+        List<FlowNode> allNodes = this.getAllFlowNodes();
+        return allNodes.get(allNodes.size() - 1).getWorklist(new ArrayList<>(), true);
+    }
+
+    private List<WorklistElement> getWorklist(List<Integer> visitedNotes, boolean isReversed) {
+        List<WorklistElement> worklistElements = new ArrayList<>();
+        if (!visitedNotes.contains(this.getId())) {
+            visitedNotes.add(this.getId());
+            for (FlowNode child  : (isReversed ? this.parents : this.children)) {
+                worklistElements.add(new WorklistElement(this, child));
+                worklistElements.addAll(child.getWorklist(visitedNotes, isReversed));
+            }
+        }
+        return worklistElements;
     }
 
     @Override
@@ -119,14 +180,14 @@ public class FlowNode {
         FlowNode flowNode = (FlowNode) o;
         return id == flowNode.id &&
                 statement.equals(flowNode.statement) &&
-                edges.equals(flowNode.edges) &&
+                children.equals(flowNode.children) &&
                 writeVariables.equals(flowNode.writeVariables) &&
                 readVariables.equals(flowNode.readVariables);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, statement, edges, writeVariables, readVariables);
+        return Objects.hash(id, statement, children, writeVariables, readVariables);
     }
 
     public String deepToString() {
@@ -137,8 +198,11 @@ public class FlowNode {
     public String toString() {
         return "---------------------------------------------------\n"
             + id + " [" + statement + "]"
-            + (this.getEdges().size() > 0
-                ? "\n\tEdges \t:: " + this.getEdges().stream().map(f -> String.valueOf(f.getId())).collect(Collectors.joining(", "))
+            + (this.getChildren().size() > 0
+                ? "\n\tEdges \t:: " + this.getChildren().stream().map(f -> String.valueOf(f.getId())).collect(Collectors.joining(", "))
+                : "")
+            + (this.getParents().size() > 0
+                ? "\n\tParents \t:: " + this.getParents().stream().map(f -> String.valueOf(f.getId())).collect(Collectors.joining(", "))
                 : "")
             + (this.writeVariables.size() > 0
                 ? "\n\tWrite \t:: " + this.writeVariables.stream().map(Object::toString).collect(Collectors.joining(", "))

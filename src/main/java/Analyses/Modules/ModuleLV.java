@@ -1,0 +1,53 @@
+package Analyses.Modules;
+
+import Model.Analyses.Result;
+import Model.Analyses.Variables.Variable;
+import Model.Analyses.Variables.VariableLV;
+import Model.Analyses.Worklist.Worklist;
+import Model.Flowgraph.FNVariable;
+import Model.Flowgraph.FlowNode;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class ModuleLV extends Module {
+    @Override
+    public void setInitial(FlowNode flowGraph, Result[] results) {
+        //Result initial = new Result(flowGraph.getAllUniqueVariables().stream()
+        //        .map(fnVariable -> new VariableLV(fnVariable.getName()))
+        //        .collect(Collectors.toList()));
+        List<FlowNode> allNodes = flowGraph.getAllFlowNodes();
+        FlowNode finalNode = allNodes.get(allNodes.size() - 1);
+
+        Result initial = new Result(finalNode.getReadVariables().stream()
+                                    .filter(fnVariable -> !fnVariable.getType().equals(FNVariable.Type.CONSTANT))
+                                    .map(fnVariable -> new VariableLV(fnVariable.getName()))
+                                    .collect(Collectors.toList()));
+        results[results.length - 1] = initial;
+    }
+
+    @Override
+    public void populateWorklist(FlowNode flowGraph, Worklist worklist) {
+        flowGraph.getReversedWorklist().forEach(worklist::insert);
+    }
+
+    @Override
+    public List<FlowNode> getChildren(FlowNode flowNode) {
+        return flowNode.getParents();
+    }
+
+    @Override
+    List<Variable> gen(FlowNode flowNode) {
+        return flowNode.getReadVariables().stream()
+                .filter(fnVariable -> !fnVariable.getType().equals(FNVariable.Type.CONSTANT))
+                .map(fnVariable -> new VariableLV(fnVariable.getName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    List<Variable> kill(FlowNode flowNode) {
+        return flowNode.getWriteVariables().stream()
+                .map(fnVariable -> new VariableLV(fnVariable.getName()))
+                .collect(Collectors.toList());
+    }
+}
