@@ -38,4 +38,10 @@ public class ModuleLV extends Module {
                 .map(fnVariable -> new VariableLV(fnVariable.getName()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Result join(Result in, Result out) {
+        in.addResult(out);
+        return in;
+    }
 }

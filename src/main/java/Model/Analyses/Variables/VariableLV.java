@@ -2,7 +2,7 @@ package Model.Analyses.Variables;
 
 import java.util.Objects;
 
-public class VariableLV implements Variable {
+public class VariableLV implements Variable<String> {
     private String variable;
 
     public VariableLV(String variable) {

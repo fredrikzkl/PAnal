@@ -2,7 +2,7 @@ package Model.Analyses.Variables;
 
 import java.util.Objects;
 
-public class VariableRD implements Variable {
+public class VariableRD implements Variable<String> {
     private String variable;
     private int nodeId;
 

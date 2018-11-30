@@ -19,6 +19,8 @@ public abstract class Module {
 
     abstract List<Variable> kill(FlowNode flowNode);
 
+    public abstract Result join(Result in, Result out);
+
     public Result generateNewOut(FlowNode node, Result in) {
         List<Variable> variables = this.gen(node);
         variables.addAll(in.getVariables().stream()

@@ -19,10 +19,6 @@ public class Result {
         this.variables = variables;
     }
 
-    public Result(Result result) {
-        this.variables = new ArrayList<>(result.getVariables());
-    }
-
     public List<Variable> getVariables() {
         return variables;
     }
@@ -32,6 +28,10 @@ public class Result {
             if (!this.variables.contains(variable))
                 this.variables.add(variable);
         }
+    }
+
+    public void intersectResult(Result other) {
+        this.variables.retainAll(other.getVariables());
     }
 
     public void addVariable(Variable variable) {

@@ -41,4 +41,10 @@ public class ModuleRD extends Module {
                 .map(fnVariable -> new VariableRD(fnVariable.getName(), -1))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Result join(Result in, Result out) {
+        in.addResult(out);
+        return in;
+    }
 }

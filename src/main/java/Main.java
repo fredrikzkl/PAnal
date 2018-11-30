@@ -1,4 +1,5 @@
 import Analyses.Analysis;
+import Analyses.Modules.ModuleAE;
 import Analyses.Modules.ModuleLV;
 import Analyses.Modules.ModuleRD;
 import Frontend.Parser;
@@ -14,11 +15,6 @@ public class Main {
         String directory = System.getProperty("user.dir") + "/src/main/resources/";
         FlowNode flowNode = Parser.parse(directory + "exampleProgram4.txt");
         //RDAnalysis.reachingDefinitions(flowNode);
-        //Analysis.worklistAnalysis(flowNode, new ModuleRD(), new WorklistFIFO());
         Analysis.worklistAnalysis(flowNode, new ModuleLV(), new WorklistFIFO());
-        //for (Path file : Files.walk(Paths.get(directory)).filter(Files::isRegularFile).collect(Collectors.toList())) {
-        //    FlowNode flowNode = Parser.parse(file.toString());
-        //    System.out.println(flowNode.deepToString());
-        //}
     }
 }
