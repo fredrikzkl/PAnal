@@ -21,8 +21,6 @@ public abstract class Module {
 
     public Result generateNewOut(FlowNode node, Result in) {
         List<Variable> variables = this.gen(node);
-        System.out.println((node.getId() + 1) + " :: gen :: " + variables);
-        System.out.println((node.getId() + 1) + " :: gen :: " + this.kill(node));
         variables.addAll(in.getVariables().stream()
                 .filter(variable -> this.kill(node).stream()
                         .noneMatch(variable::variableEquals))

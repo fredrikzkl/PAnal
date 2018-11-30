@@ -12,19 +12,7 @@ import java.util.stream.Collectors;
 
 public class ModuleLV extends Module {
     @Override
-    public void setInitial(FlowNode flowGraph, Result[] results) {
-        //Result initial = new Result(flowGraph.getAllUniqueVariables().stream()
-        //        .map(fnVariable -> new VariableLV(fnVariable.getName()))
-        //        .collect(Collectors.toList()));
-        List<FlowNode> allNodes = flowGraph.getAllFlowNodes();
-        FlowNode finalNode = allNodes.get(allNodes.size() - 1);
-
-        Result initial = new Result(finalNode.getReadVariables().stream()
-                                    .filter(fnVariable -> !fnVariable.getType().equals(FNVariable.Type.CONSTANT))
-                                    .map(fnVariable -> new VariableLV(fnVariable.getName()))
-                                    .collect(Collectors.toList()));
-        results[results.length - 1] = initial;
-    }
+    public void setInitial(FlowNode flowGraph, Result[] results) { }
 
     @Override
     public void populateWorklist(FlowNode flowGraph, Worklist worklist) {
