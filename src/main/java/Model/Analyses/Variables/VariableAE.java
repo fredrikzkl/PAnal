@@ -2,20 +2,20 @@ package Model.Analyses.Variables;
 
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
-public class VariableAE implements Variable<List<String>> {
-    private List<String> variables;
+public class VariableAE implements Variable<Set<String>> {
+    private Set<String> variables;
     private String expression;
 
-    public VariableAE(List<String> variables, String expression) {
+    public VariableAE(Set<String> variables, String expression) {
         this.variables = variables;
         this.expression = expression;
     }
 
     @Override
-    public List<String> getVariable() {
+    public Set<String> getVariable() {
         return variables;
     }
 

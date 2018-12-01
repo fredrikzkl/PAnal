@@ -7,6 +7,7 @@ import Model.Analyses.WorkList.WorkList;
 import Model.Flowgraph.FlowNode;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ModuleLV extends Module {
@@ -24,18 +25,18 @@ public class ModuleLV extends Module {
     }
 
     @Override
-    List<Variable> gen(FlowNode flowNode) {
+    Set<Variable> gen(FlowNode flowNode) {
         return flowNode.getReadVariables().stream()
                 .filter(fnVariable -> !fnVariable.isConstant())
                 .map(fnVariable -> new VariableLV(fnVariable.getName()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     @Override
-    List<Variable> kill(FlowNode flowNode) {
+    Set<Variable> kill(FlowNode flowNode) {
         return flowNode.getWriteVariables().stream()
                 .map(fnVariable -> new VariableLV(fnVariable.getName()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     @Override

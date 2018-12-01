@@ -7,6 +7,7 @@ import Model.Analyses.WorkList.WorkList;
 import Model.Flowgraph.FlowNode;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ModuleRD extends Module {
@@ -14,7 +15,7 @@ public class ModuleRD extends Module {
     public void setInitial(FlowNode flowGraph, Result[] results) {
         Result initial = new Result(flowGraph.getAllUniqueVariables().stream()
                 .map(fnVariable -> new VariableRD(fnVariable.getName(), -1))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toSet()));
         results[0] = initial;
     }
 
@@ -29,17 +30,17 @@ public class ModuleRD extends Module {
     }
 
     @Override
-    public List<Variable> gen(FlowNode flowNode) {
+    public Set<Variable> gen(FlowNode flowNode) {
         return flowNode.getWriteVariables().stream()
                 .map(v -> new VariableRD(v.getName(), flowNode.getId()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     @Override
-    public List<Variable> kill(FlowNode flowNode) {
+    public Set<Variable> kill(FlowNode flowNode) {
         return flowNode.getWriteVariables().stream()
                 .map(fnVariable -> new VariableRD(fnVariable.getName(), -1))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     @Override

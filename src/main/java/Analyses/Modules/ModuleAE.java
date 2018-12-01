@@ -7,8 +7,9 @@ import Model.Analyses.WorkList.WorkList;
 import Model.Flowgraph.FNVariable;
 import Model.Flowgraph.FlowNode;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ModuleAE extends Module {
@@ -26,28 +27,28 @@ public class ModuleAE extends Module {
     }
 
     @Override
-    List<Variable> gen(FlowNode flowNode) {
-        List<String> variables = flowNode.getReadVariables().stream()
+    Set<Variable> gen(FlowNode flowNode) {
+        Set<String> variables = flowNode.getReadVariables().stream()
                 .filter(fnVariable -> !fnVariable.isConstant()
                         && flowNode.getWriteVariables().stream().
                         noneMatch(innerFNV -> fnVariable.getName().equals(innerFNV.getName())))
                 .map(FNVariable::getName)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         return this.createVariables(variables);
     }
 
     @Override
-    List<Variable> kill(FlowNode flowNode) {
-        List<String> variables = flowNode.getWriteVariables().stream()
+    Set<Variable> kill(FlowNode flowNode) {
+        Set<String> variables = flowNode.getWriteVariables().stream()
                 .map(FNVariable::getName)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         return this.createVariables(variables);
     }
 
-    private List<Variable> createVariables(List<String> variables) {
+    private Set<Variable> createVariables(Set<String> variables) {
         String expression = String.join(" ", variables);
 
-        List<Variable> result = new ArrayList<>();
+        Set<Variable> result = new HashSet<>();
         if (variables.size() != 0)
             result.add(new VariableAE(variables, expression));
         return result;

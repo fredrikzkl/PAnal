@@ -3,31 +3,28 @@ package Model.Analyses;
 import Model.Analyses.Variables.Variable;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Result {
-    private List<Variable> variables;
+    private Set<Variable> variables;
 
     public Result() {
-        this(new ArrayList<>());
+        this(new HashSet<>());
     }
 
-    public Result(List<Variable> variables) {
+    public Result(Set<Variable> variables) {
         this.variables = variables;
     }
 
-    public List<Variable> getVariables() {
+    public Set<Variable> getVariables() {
         return variables;
     }
 
     public void addResult(Result other) {
-        for (Variable variable : other.getVariables()) {
-            if (!this.variables.contains(variable))
-                this.variables.add(variable);
-        }
+        this.variables.addAll(other.getVariables());
     }
 
     public void intersectResult(Result other) {

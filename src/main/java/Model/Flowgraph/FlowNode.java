@@ -78,7 +78,8 @@ public class FlowNode {
     }
 
     public boolean isNotContinueOrBreakNode() {
-        return this.statement != null && !this.statement.equals("continue;") && !this.statement.equals("break;");
+        return this.statement != null && !this.statement.equals("continue;") && !
+                this.statement.equals("break;");
     }
 
     public List<FlowNode> getAllFlowNodes() {
@@ -109,11 +110,11 @@ public class FlowNode {
         return allChildren;
     }
 
-    public List<FNVariable> getAllUniqueVariables() {
-        return this.getAllUniqueVariables(new ArrayList<>(), new ArrayList<>());
+    public Set<FNVariable> getAllUniqueVariables() {
+        return this.getAllUniqueVariables(new ArrayList<>(), new HashSet<>());
     }
 
-    private List<FNVariable> getAllUniqueVariables(List<Integer> visitedNotes, List<FNVariable> variables) {
+    private Set<FNVariable> getAllUniqueVariables(List<Integer> visitedNotes, Set<FNVariable> variables) {
         if (!visitedNotes.contains(this.getId())) {
             writeVariables.stream().
                     filter(fnVariable -> variables.stream().noneMatch(fnVariable1 -> fnVariable1.getName().equals(fnVariable.getName()))).
