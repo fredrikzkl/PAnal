@@ -78,7 +78,7 @@ public class FlowNode {
     }
 
     public boolean isNotContinueOrBreakNode() {
-        return this.statement != null && !this.statement.equals("continue;") && this.statement.equals("break;");
+        return this.statement != null && !this.statement.equals("continue;") && !this.statement.equals("break;");
     }
 
     public List<FlowNode> getAllFlowNodes() {
