@@ -1,6 +1,6 @@
 package Model.Flowgraph;
 
-import Model.Analyses.Worklist.WorklistElement;
+import Model.Analyses.WorkList.WorkListElement;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,69 +44,41 @@ public class FlowNode {
     }
 
     public List<FlowNode> getChildren() {
-        if (this.children == null){
-            this.children = new ArrayList<>();
-        }
         return children;
     }
 
     public void addChild(FlowNode edge) {
-        if (this.children == null){
-            this.children = new ArrayList<>();
-        }
         if (!this.children.contains(edge))
             this.children.add(edge);
     }
 
     public List<FlowNode> getParents() {
-        if (this.parents == null){
-            this.parents = new ArrayList<>();
-        }
         return parents;
     }
 
     public void addParent(FlowNode edge) {
-        if (this.parents == null){
-            this.parents = new ArrayList<>();
-        }
         if (!this.parents.contains(edge))
             this.parents.add(edge);
     }
 
     public List<FNVariable> getWriteVariables() {
-        if (this.writeVariables == null) {
-            this.writeVariables = new ArrayList<>();
-        }
         return this.writeVariables;
     }
 
     public void addWriteVariable(FNVariable variable) {
-        if (this.writeVariables == null) {
-            this.writeVariables = new ArrayList<>();
-        }
         this.writeVariables.add(variable);
     }
 
     public List<FNVariable> getReadVariables() {
-        if (this.readVariables == null) {
-            this.readVariables = new ArrayList<>();
-        }
         return this.readVariables;
     }
 
     public void addReadVariable(FNVariable variable) {
-        if (this.readVariables == null) {
-            this.readVariables = new ArrayList<>();
-        }
         this.readVariables.add(variable);
     }
 
-    public boolean isContinueNode() {
-        return this.statement != null && this.statement.equals("continue;");
-    }
-
-    public boolean isBreakNode() {
-        return this.statement != null && this.statement.equals("break;");
+    public boolean isNotContinueOrBreakNode() {
+        return this.statement != null && !this.statement.equals("continue;") && this.statement.equals("break;");
     }
 
     public List<FlowNode> getAllFlowNodes() {
@@ -152,25 +124,25 @@ public class FlowNode {
         return variables;
     }
 
-    public List<WorklistElement> getWorklist() {
-        return this.getWorklist(new ArrayList<>(), false);
+    public List<WorkListElement> getWorkList() {
+        return this.getWorkList(new ArrayList<>(), false);
     }
 
-    public List<WorklistElement> getReversedWorklist() {
+    public List<WorkListElement> getReversedWorkList() {
         List<FlowNode> allNodes = this.getAllFlowNodes();
-        return allNodes.get(allNodes.size() - 1).getWorklist(new ArrayList<>(), true);
+        return allNodes.get(allNodes.size() - 1).getWorkList(new ArrayList<>(), true);
     }
 
-    private List<WorklistElement> getWorklist(List<Integer> visitedNotes, boolean isReversed) {
-        List<WorklistElement> worklistElements = new ArrayList<>();
+    private List<WorkListElement> getWorkList(List<Integer> visitedNotes, boolean isReversed) {
+        List<WorkListElement> workListElements = new ArrayList<>();
         if (!visitedNotes.contains(this.getId())) {
             visitedNotes.add(this.getId());
             for (FlowNode child  : (isReversed ? this.parents : this.children)) {
-                worklistElements.add(new WorklistElement(this, child));
-                worklistElements.addAll(child.getWorklist(visitedNotes, isReversed));
+                workListElements.add(new WorkListElement(this, child));
+                workListElements.addAll(child.getWorkList(visitedNotes, isReversed));
             }
         }
-        return worklistElements;
+        return workListElements;
     }
 
     @Override

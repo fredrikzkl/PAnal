@@ -49,12 +49,12 @@ public class FlowNodeVisitor {
             if (iterator.hasNext()) {
                 FlowNode orgFlowNode = flowNode;
                 flowNode = new FlowNode(++id);
-                if (!orgFlowNode.isContinueNode() && !orgFlowNode.isBreakNode())
+                if (orgFlowNode.isNotContinueOrBreakNode())
                     this.addEdge(orgFlowNode, flowNode);
                 Iterator<FlowNode> flowNodeIterator = currentIfElseFinalFlowNodes.iterator();
                 while (flowNodeIterator.hasNext()) {
                     FlowNode next = flowNodeIterator.next();
-                    if (!next.isContinueNode() && !next.isBreakNode())
+                    if (next.isNotContinueOrBreakNode())
                         this.addEdge(next, flowNode);
                     flowNodeIterator.remove();
                 }

@@ -34,18 +34,6 @@ public class Result {
         this.variables.retainAll(other.getVariables());
     }
 
-    public void addVariable(Variable variable) {
-        variables.add(variable);
-    }
-
-    public boolean removeVariable(Variable variable) {
-        return variables.remove(variable);
-    }
-
-    public void clearVariables() {
-        this.variables.clear();
-    }
-
     public boolean isSubsetOf(Result other) {
         return CollectionUtils.containsAll(other.getVariables(), this.variables);
     }

@@ -2,7 +2,7 @@ package Analyses.Modules;
 
 import Model.Analyses.Result;
 import Model.Analyses.Variables.Variable;
-import Model.Analyses.Worklist.Worklist;
+import Model.Analyses.WorkList.WorkList;
 import Model.Flowgraph.FlowNode;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public abstract class Module {
     public abstract void setInitial(FlowNode flowGraph, Result[] results);
 
-    public abstract void populateWorklist(FlowNode flowGraph, Worklist worklist);
+    public abstract void populateWorkList(FlowNode flowGraph, WorkList workList);
 
     public abstract List<FlowNode> getChildren(FlowNode flowNode);
 

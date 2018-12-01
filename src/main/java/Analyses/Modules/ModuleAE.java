@@ -3,7 +3,7 @@ package Analyses.Modules;
 import Model.Analyses.Result;
 import Model.Analyses.Variables.Variable;
 import Model.Analyses.Variables.VariableAE;
-import Model.Analyses.Worklist.Worklist;
+import Model.Analyses.WorkList.WorkList;
 import Model.Flowgraph.FNVariable;
 import Model.Flowgraph.FlowNode;
 
@@ -16,8 +16,8 @@ public class ModuleAE extends Module {
     public void setInitial(FlowNode flowGraph, Result[] results) { }
 
     @Override
-    public void populateWorklist(FlowNode flowGraph, Worklist worklist) {
-        flowGraph.getWorklist().forEach(worklist::insert);
+    public void populateWorkList(FlowNode flowGraph, WorkList workList) {
+        flowGraph.getWorkList().forEach(workList::insert);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ModuleAE extends Module {
     @Override
     List<Variable> gen(FlowNode flowNode) {
         List<String> variables = flowNode.getReadVariables().stream()
-                .filter(fnVariable -> !fnVariable.getType().equals(FNVariable.Type.CONSTANT)
+                .filter(fnVariable -> !fnVariable.isConstant()
                         && flowNode.getWriteVariables().stream().
                         noneMatch(innerFNV -> fnVariable.getName().equals(innerFNV.getName())))
                 .map(FNVariable::getName)

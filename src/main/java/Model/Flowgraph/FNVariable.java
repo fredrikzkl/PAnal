@@ -5,8 +5,7 @@ public class FNVariable {
     private Type type;
     private Integer value;
 
-    public FNVariable() {
-    }
+    public FNVariable() { }
 
     public FNVariable(String name) {
         this.name = name;
@@ -34,6 +33,10 @@ public class FNVariable {
 
     public void setValue(Integer value) {
         this.value = value;
+    }
+
+    public boolean isConstant() {
+        return this.type.equals(Type.CONSTANT);
     }
 
     public enum Type {

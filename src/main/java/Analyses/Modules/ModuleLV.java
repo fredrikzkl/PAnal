@@ -3,8 +3,7 @@ package Analyses.Modules;
 import Model.Analyses.Result;
 import Model.Analyses.Variables.Variable;
 import Model.Analyses.Variables.VariableLV;
-import Model.Analyses.Worklist.Worklist;
-import Model.Flowgraph.FNVariable;
+import Model.Analyses.WorkList.WorkList;
 import Model.Flowgraph.FlowNode;
 
 import java.util.List;
@@ -15,8 +14,8 @@ public class ModuleLV extends Module {
     public void setInitial(FlowNode flowGraph, Result[] results) { }
 
     @Override
-    public void populateWorklist(FlowNode flowGraph, Worklist worklist) {
-        flowGraph.getReversedWorklist().forEach(worklist::insert);
+    public void populateWorkList(FlowNode flowGraph, WorkList workList) {
+        flowGraph.getReversedWorkList().forEach(workList::insert);
     }
 
     @Override
@@ -27,7 +26,7 @@ public class ModuleLV extends Module {
     @Override
     List<Variable> gen(FlowNode flowNode) {
         return flowNode.getReadVariables().stream()
-                .filter(fnVariable -> !fnVariable.getType().equals(FNVariable.Type.CONSTANT))
+                .filter(fnVariable -> !fnVariable.isConstant())
                 .map(fnVariable -> new VariableLV(fnVariable.getName()))
                 .collect(Collectors.toList());
     }

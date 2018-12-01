@@ -3,7 +3,7 @@ package Analyses.Modules;
 import Model.Analyses.Variables.VariableRD;
 import Model.Analyses.Result;
 import Model.Analyses.Variables.Variable;
-import Model.Analyses.Worklist.Worklist;
+import Model.Analyses.WorkList.WorkList;
 import Model.Flowgraph.FlowNode;
 
 import java.util.List;
@@ -19,8 +19,8 @@ public class ModuleRD extends Module {
     }
 
     @Override
-    public void populateWorklist(FlowNode flowGraph, Worklist worklist) {
-        flowGraph.getWorklist().forEach(worklist::insert);
+    public void populateWorkList(FlowNode flowGraph, WorkList workList) {
+        flowGraph.getWorkList().forEach(workList::insert);
     }
 
     @Override

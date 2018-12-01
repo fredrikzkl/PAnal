@@ -2,16 +2,15 @@ package Analyses;
 
 import Analyses.Modules.Module;
 import Model.Analyses.Result;
-import Model.Analyses.Worklist.Worklist;
-import Model.Analyses.Worklist.WorklistElement;
-import Model.Analyses.Worklist.WorklistFIFO;
+import Model.Analyses.WorkList.WorkList;
+import Model.Analyses.WorkList.WorkListElement;
 import Model.Flowgraph.FlowNode;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class Analysis {
-    public static void worklistAnalysis(FlowNode flowGraph, Module analysisModule, Worklist worklist) {
+    public static void workListAnalysis(FlowNode flowGraph, Module analysisModule, WorkList workList) {
         List<FlowNode> allNodes = flowGraph.getAllFlowNodes();
         Result[] in = new Result[allNodes.size()];
         Result[] out = new Result[allNodes.size()];
@@ -20,12 +19,12 @@ public class Analysis {
             out[i] = new Result();
         }
         analysisModule.setInitial(flowGraph, in);
-        analysisModule.populateWorklist(flowGraph, worklist);
+        analysisModule.populateWorkList(flowGraph, workList);
 
-        while (!worklist.empty()) {
-            WorklistElement worklistElement = worklist.extract();
-            FlowNode first = worklistElement.getFirst();
-            FlowNode second = worklistElement.getSecond();
+        while (!workList.empty()) {
+            WorkListElement workListElement = workList.extract();
+            FlowNode first = workListElement.getFirst();
+            FlowNode second = workListElement.getSecond();
 
             Result newOut = analysisModule.generateNewOut(first, in[first.getId()]);
             out[first.getId()] = newOut;
@@ -34,7 +33,7 @@ public class Analysis {
             if (!newOut.isSubsetOf(otherIn)) {
                 analysisModule.join(otherIn, newOut);
                 for (FlowNode child : analysisModule.getChildren(second)) {
-                    worklist.insert(new WorklistElement(second, child));
+                    workList.insert(new WorkListElement(second, child));
                 }
             }
         }
