@@ -1,6 +1,7 @@
 {
-    x:=1;
+    read x;
     z:=x;
     y:=z*x;
+    y:=1;
     write y;
 }
