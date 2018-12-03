@@ -37,8 +37,11 @@ public class Analysis {
                 }
             }
         }
-        FlowNode lastFlowNode = allNodes.get(allNodes.size() - 1);
-        out[allNodes.size() - 1] = analysisModule.generateNewOut(lastFlowNode, in[lastFlowNode.getId()]);
+        int finalIndex = allNodes.size() - 1;
+        FlowNode lastFlowNode = allNodes.get(finalIndex);
+        Result finalOut = analysisModule.fillFinal(lastFlowNode, in[lastFlowNode.getId()]);
+        if (finalOut != null)
+            out[finalIndex] = finalOut;
         System.out.println("----------------------------");
         Arrays.stream(in).forEach(System.out::println);
         System.out.println("----------------------------");

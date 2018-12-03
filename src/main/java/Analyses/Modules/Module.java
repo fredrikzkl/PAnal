@@ -30,4 +30,8 @@ public abstract class Module {
                 .collect(Collectors.toList()));
         return new Result(variables);
     }
+
+    public Result fillFinal(FlowNode finalFlowNode, Result in) {
+        return null;
+    }
 }

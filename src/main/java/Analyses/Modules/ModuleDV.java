@@ -33,24 +33,14 @@ public class ModuleDV extends Module {
 
     @Override
     public Set<Variable> gen(FlowNode flowNode) {
-        Set<Variable> variables = flowNode.getWriteVariables().stream()
+        return flowNode.getWriteVariables().stream()
                 .map(v -> new VariableVar(v.getName()))
                 .collect(Collectors.toSet());
-        System.out.print(flowNode.getId() + " GEN: ");
-        variables.forEach(System.out::print);
-        System.out.println();
-        return variables;
     }
 
     @Override
     public Set<Variable> kill(FlowNode flowNode) {
-        Set<Variable> variables = flowNode.getWriteVariables().stream()
-                .map(v -> new VariableVar(v.getName()))
-                .collect(Collectors.toSet());
-        System.out.print(flowNode.getId() + " KILL: ");
-        variables.forEach(System.out::print);
-        System.out.println();
-        return variables;
+        return this.gen(flowNode);
     }
 
     @Override
@@ -81,5 +71,10 @@ public class ModuleDV extends Module {
         return node.getReadVariables().stream()
                 .filter(fnVariable -> !fnVariable.isConstant())
                 .anyMatch(fnVariable -> fnVariable.getName().equals(variable.getVariable()));
+    }
+
+    @Override
+    public Result fillFinal(FlowNode finalFlowNode, Result in) {
+        return this.generateNewOut(finalFlowNode, in);
     }
 }

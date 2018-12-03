@@ -48,4 +48,9 @@ public class ModuleRD extends Module {
         in.addResult(out);
         return in;
     }
+
+    @Override
+    public Result fillFinal(FlowNode finalFlowNode, Result in) {
+        return this.generateNewOut(finalFlowNode, in);
+    }
 }
