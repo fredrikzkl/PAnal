@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException, ParseException {
         String directory = System.getProperty("user.dir") + "/src/main/resources/";
-        FlowNode flowNode = Parser.parse(directory + "exampleProgram4.txt");
-        Analysis.workListAnalysis(flowNode, new ModuleLV(), new WorkListFIFO());
+        FlowNode flowNode = Parser.parse(directory + "exampleProgram1.txt");
+        Analysis.workListAnalysis(flowNode, new ModuleFV(), new WorkListChaotic());
     }
 }

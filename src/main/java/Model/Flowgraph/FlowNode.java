@@ -1,6 +1,9 @@
 package Model.Flowgraph;
 
 import Model.Analyses.WorkList.WorkListElement;
+import antlr.MicroCParser.*;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,6 +15,7 @@ public class FlowNode {
     private List<FlowNode> parents;
     private List<FNVariable> writeVariables;
     private List<FNVariable> readVariables;
+    private Type type;
 
     public FlowNode(int id) {
         this(id, "", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
@@ -75,6 +79,18 @@ public class FlowNode {
 
     public void addReadVariable(FNVariable variable) {
         this.readVariables.add(variable);
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public boolean isAnyVariableUsed() {
+        return this.type.equals(Type.WRITE) || this.type.equals(Type.IF) || this.type.equals(Type.WHILE);
     }
 
     public boolean isNotContinueOrBreakNode() {
@@ -170,7 +186,7 @@ public class FlowNode {
     @Override
     public String toString() {
         return "---------------------------------------------------\n"
-            + id + " [" + statement + "]"
+            + id + " [" + statement + "] " + type
             + (this.getChildren().size() > 0
                 ? "\n\tEdges \t:: " + this.getChildren().stream().map(f -> String.valueOf(f.getId())).collect(Collectors.joining(", "))
                 : "")
@@ -183,5 +199,28 @@ public class FlowNode {
             + (this.readVariables.size() > 0
                 ? "\n\tRead \t:: " + this.readVariables.stream().map(Object::toString).collect(Collectors.joining(", "))
                 : "");
+    }
+
+    public enum Type {
+        VARDECLERATION,
+        ASSIGN,
+        IF,
+        WHILE,
+        READ,
+        WRITE,
+        BREAK,
+        CONTINUE;
+
+        public static Type getInstanceFromContext(ParseTree ctx) {
+            if (ctx instanceof VarDeclarationContext) return VARDECLERATION;
+            else if (ctx instanceof StatementAssignContext || ctx instanceof StatementAssignRecordContext) return ASSIGN;
+            else if (ctx instanceof StatementIfContext) return IF;
+            else if (ctx instanceof StatementWhileContext) return WHILE;
+            else if (ctx instanceof StatementReadContext) return READ;
+            else if (ctx instanceof StatementWriteContext) return WRITE;
+            else if (ctx instanceof StatementBreakContext) return BREAK;
+            else if (ctx instanceof StatementContinueContext) return CONTINUE;
+            else return null;
+        }
     }
 }

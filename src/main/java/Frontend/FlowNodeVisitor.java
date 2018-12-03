@@ -74,6 +74,7 @@ public class FlowNodeVisitor {
         FlowNode result = null;
         for (ParseTree child : ctx.children) {
             flowNode.setStatement(child.getText());
+            flowNode.setType(FlowNode.Type.getInstanceFromContext(child));
             result = invokeChildMethod(child, flowNode);
         }
         return result;
