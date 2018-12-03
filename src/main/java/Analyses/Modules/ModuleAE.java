@@ -2,7 +2,7 @@ package Analyses.Modules;
 
 import Model.Analyses.Result;
 import Model.Analyses.Variables.Variable;
-import Model.Analyses.Variables.VariableAE;
+import Model.Analyses.Variables.VariableExp;
 import Model.Analyses.WorkList.WorkList;
 import Model.Flowgraph.FNVariable;
 import Model.Flowgraph.FlowNode;
@@ -50,7 +50,7 @@ public class ModuleAE extends Module {
 
         Set<Variable> result = new HashSet<>();
         if (variables.size() != 0)
-            result.add(new VariableAE(variables, expression));
+            result.add(new VariableExp(variables, expression));
         return result;
     }
 

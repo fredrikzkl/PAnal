@@ -2,10 +2,10 @@ package Model.Analyses.Variables;
 
 import java.util.Objects;
 
-public class VariableLV implements Variable<String> {
+public class VariableVar implements Variable<String> {
     private String variable;
 
-    public VariableLV(String variable) {
+    public VariableVar(String variable) {
         this.variable = variable;
     }
 
@@ -22,7 +22,7 @@ public class VariableLV implements Variable<String> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VariableLV rdResult = (VariableLV) o;
+        VariableVar rdResult = (VariableVar) o;
         if (variable == null) {
             System.out.println();
         }

@@ -2,7 +2,7 @@ package Analyses.Modules;
 
 import Model.Analyses.Result;
 import Model.Analyses.Variables.Variable;
-import Model.Analyses.Variables.VariableLV;
+import Model.Analyses.Variables.VariableVar;
 import Model.Analyses.WorkList.WorkList;
 import Model.Flowgraph.FlowNode;
 
@@ -28,14 +28,14 @@ public class ModuleLV extends Module {
     Set<Variable> gen(FlowNode flowNode) {
         return flowNode.getReadVariables().stream()
                 .filter(fnVariable -> !fnVariable.isConstant())
-                .map(fnVariable -> new VariableLV(fnVariable.getName()))
+                .map(fnVariable -> new VariableVar(fnVariable.getName()))
                 .collect(Collectors.toSet());
     }
 
     @Override
     Set<Variable> kill(FlowNode flowNode) {
         return flowNode.getWriteVariables().stream()
-                .map(fnVariable -> new VariableLV(fnVariable.getName()))
+                .map(fnVariable -> new VariableVar(fnVariable.getName()))
                 .collect(Collectors.toSet());
     }
 

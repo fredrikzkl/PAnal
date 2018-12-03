@@ -2,11 +2,11 @@ package Model.Analyses.Variables;
 
 import java.util.Objects;
 
-public class VariableRD implements Variable<String> {
+public class VariableLab implements Variable<String> {
     private String variable;
     private int nodeId;
 
-    public VariableRD(String variable, int id) {
+    public VariableLab(String variable, int id) {
         this.variable = variable;
         this.nodeId = id;
     }
@@ -28,7 +28,7 @@ public class VariableRD implements Variable<String> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VariableRD rdResult = (VariableRD) o;
+        VariableLab rdResult = (VariableLab) o;
         return nodeId == rdResult.nodeId &&
                 variable.equals(rdResult.variable);
     }

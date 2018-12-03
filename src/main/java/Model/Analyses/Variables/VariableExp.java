@@ -5,11 +5,11 @@ import org.apache.commons.collections4.CollectionUtils;
 import java.util.Objects;
 import java.util.Set;
 
-public class VariableAE implements Variable<Set<String>> {
+public class VariableExp implements Variable<Set<String>> {
     private Set<String> variables;
     private String expression;
 
-    public VariableAE(Set<String> variables, String expression) {
+    public VariableExp(Set<String> variables, String expression) {
         this.variables = variables;
         this.expression = expression;
     }
@@ -25,15 +25,15 @@ public class VariableAE implements Variable<Set<String>> {
 
     @Override
     public boolean variableEquals(Variable variable) {
-        return variable instanceof VariableAE &&
-                CollectionUtils.containsAny(this.variables, ((VariableAE) variable).variables);
+        return variable instanceof VariableExp &&
+                CollectionUtils.containsAny(this.variables, ((VariableExp) variable).variables);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VariableAE that = (VariableAE) o;
+        VariableExp that = (VariableExp) o;
         return Objects.equals(variables, that.variables) &&
                 Objects.equals(expression, that.expression);
     }
